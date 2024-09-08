@@ -1,0 +1,12 @@
+/Users/carmella/Desktop/GG - code/GiftGalaxy/giftgalaxy/authenticationservice/src/main/java/com/example/authenticationservice/AuthenticationserviceApplication.java
+/Users/carmella/Desktop/GG - code/GiftGalaxy/giftgalaxy/authenticationservice/src/main/java/com/example/authenticationservice/DefaultUserConfig.java
+/Users/carmella/Desktop/GG - code/GiftGalaxy/giftgalaxy/authenticationservice/src/main/java/com/example/authenticationservice/controller/AuthController.java
+/Users/carmella/Desktop/GG - code/GiftGalaxy/giftgalaxy/authenticationservice/src/main/java/com/example/authenticationservice/controller/LoginController.java
+/Users/carmella/Desktop/GG - code/GiftGalaxy/giftgalaxy/authenticationservice/src/main/java/com/example/authenticationservice/controller/RegistrationController.java
+/Users/carmella/Desktop/GG - code/GiftGalaxy/giftgalaxy/authenticationservice/src/main/java/com/example/authenticationservice/model/User.java
+/Users/carmella/Desktop/GG - code/GiftGalaxy/giftgalaxy/authenticationservice/src/main/java/com/example/authenticationservice/model/UserRepository.java
+/Users/carmella/Desktop/GG - code/GiftGalaxy/giftgalaxy/authenticationservice/src/main/java/com/example/authenticationservice/model/UserService.java
+/Users/carmella/Desktop/GG - code/GiftGalaxy/giftgalaxy/authenticationservice/src/main/java/com/example/authenticationservice/security/SecurityConfig.java
+/Users/carmella/Desktop/GG - code/GiftGalaxy/giftgalaxy/authenticationservice/src/main/java/com/example/authenticationservice/webtoken/JwtAuthenticationFilter.java
+/Users/carmella/Desktop/GG - code/GiftGalaxy/giftgalaxy/authenticationservice/src/main/java/com/example/authenticationservice/webtoken/JwtService.java
+/Users/carmella/Desktop/GG - code/GiftGalaxy/giftgalaxy/authenticationservice/src/main/java/com/example/authenticationservice/webtoken/LoginForm.java

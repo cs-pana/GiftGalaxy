@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GiftGalaxy</title>
+    <script>
+        window.addEventListener('load', function() {
+         const token = localStorage.getItem('jwtToken');
+         if (!token) {
+             alert('You must log in first!');
+             window.location.href = '/login';  // Redirect to login if token is missing
+             return;
+         }
+         console.log(token);
+     
+         // Fetch the /homepage content with the JWT token in the Authorization header
+         fetch('/index', {
+             method: 'GET',
+             headers: {
+                 'Authorization': 'Bearer ' + token  // Add the token to Authorization header
+             }
+         })
+         .then(response => {
+             if (response.ok) {
+                 console.log("get index in index is executed");
+                             return response.text();  // Load the content of /homepage
+     
+             } else {
+                 alert("Unauthorized access.");
+                 window.location.href = '/login';  // Redirect to login if access is denied
+             }
+         })
+         .then(data => {
+             document.body.innerHTML = data;  // Render the /homepage content
+         })
+         .catch(error => {
+             console.error('Error:', error);
+             alert('Access denied');
+             window.location.href = '/login';  // Redirect to login if access is denied
+         });
+     });
+     
+         </script>
+         
+         
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body and Container Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header Styles */
+        header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        /* Navigation Styles */
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover {
+            color: #0056b3;
+        }
+
+        /* Main Content Styles */
+        main {
+            margin: 20px 0;
+        }
+
+        main section {
+            margin-bottom: 20px;
+        }
+
+        main h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        main p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Quick Links Styles */
+        main h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        main ul {
+            list-style-type: none;
+        }
+
+        main ul li {
+            margin-bottom: 10px;
+        }
+
+        main ul li a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: normal;
+        }
+
+        main ul li a:hover {
+            color: #0056b3;
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+            border-top: 1px solid #eaeaea;
+        }
+
+        footer p {
+            font-size: 0.875rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to GiftGalaxy</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+        <main>
+            <section>
+                <h2>Hello!</h2>
+                <p>This is your dashboard where you can manage your profile, adjust settings, and explore other features.</p>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 GiftGalaxy. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
