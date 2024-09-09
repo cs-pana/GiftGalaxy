@@ -22,21 +22,6 @@ public class LoginController {
     @Autowired
     private JwtService jwtService;
 
-
-    /*@PostMapping(value = "/login", consumes = "application/json")
-     public String authenticateAndGetToken(@RequestBody LoginForm loginForm) {
-       // Print request body to console
-       System.out.println("Received login request: email=" + loginForm.username() + ", password=" + loginForm.password());
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginForm.username(), loginForm.password()
-        ));
-        if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(userService.loadUserByUsername(loginForm.username()));
-        } else {
-            throw new UsernameNotFoundException("Invalid credentials");
-        }
-        //return jwtService.generateToken(userService.loadUserByUsername(loginForm.username()));
-    }*/
      @PostMapping("/login")
     public ResponseEntity<String> authenticateAndGetToken(@RequestBody LoginForm loginForm) {
         Authentication authentication = authenticationManager.authenticate(
@@ -49,10 +34,10 @@ public class LoginController {
             // Generate JWT token
             String token = jwtService.generateToken((UserDetails) authentication.getPrincipal());
 
-            // Return the token in the response body or header
+            // Return the token in the response body and header
             return ResponseEntity.ok()
-                .header("Authorization", "Bearer " + token)  // Optionally include in the header
-                .body(token);  // Return the token in the body
+                .header("Authorization", "Bearer " + token)
+                .body(token);
         } else {
             throw new BadCredentialsException("Invalid credentials");
         }

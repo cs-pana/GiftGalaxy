@@ -22,8 +22,9 @@ public class JwtService {
     //issuing new token, validating...
 
     //Run the JwtSecretMakerTest program to generate new secret key
-    private static final String SECRET = "6CBCE21BACF0918BF5A2018074633A9AA402D97770A2FBEA096CBF78DEE425DE727900B9BF0461E89FAE86BDF06AEB8EB50A5B65B11BEE67AD40125D9B4E45E1";
-    private static final long VALIDITY = TimeUnit.MINUTES.toMillis(30); //VALID FOR 30 MINUTES
+    private static final String SECRET = "B0405FA0EB37048A86C205D3E01FE97C31FCB78DEDF0E215447A40C61035E598C2CD314EBF7B5175CE73A25FDFAADBCDE2EE2FC0E65AE94A8C9EBD06A0CA12AC";
+    private static final long VALIDITY = TimeUnit.MINUTES.toMillis(60); //VALID FOR 1 HOUR
+
     //Generate token function:
     //we will generate a token for each user after they login
     public String generateToken(UserDetails userDetails) {
@@ -50,7 +51,6 @@ public class JwtService {
     }
 
     public String extractUsername(String jwt) {
-
         //parse the data from the given webtoken
         Claims claims = getClaims(jwt);
         return claims.getSubject();

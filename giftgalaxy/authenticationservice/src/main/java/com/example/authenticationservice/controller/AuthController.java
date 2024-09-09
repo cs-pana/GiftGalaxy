@@ -19,7 +19,7 @@ public class AuthController {
 
     @GetMapping("/dashboard")
     public String dashboard() {
-        return "dashboard";  // This can be your protected page
+        return "dashboard";
     }
     
     @GetMapping("/index")

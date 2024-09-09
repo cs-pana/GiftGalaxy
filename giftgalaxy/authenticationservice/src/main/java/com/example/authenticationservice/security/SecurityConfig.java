@@ -79,7 +79,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)  // Disable CSRF for simplicity
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/signup", "/login", "/h2-console").permitAll();  // Allow access to these endpoints
+                    auth.requestMatchers("/signup", "/login", "/h2-console/**").permitAll();  // Allow access to these endpoints
                     auth.anyRequest().authenticated();  // All other requests need authentication
             })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

@@ -24,6 +24,7 @@ const LoginSignup = ({ onLogin }) => { // Use onLogin to pass login handler
   // Handle login
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError('');
     try {
       const response = await axiosInstance.post('/login', {
         username: email, // backend expects 'username' for login
@@ -49,6 +50,8 @@ const LoginSignup = ({ onLogin }) => { // Use onLogin to pass login handler
   // Handle signup
   const handleSignup = async (e) => {
     e.preventDefault();
+
+    setError('');
     try {
       const response = await axiosInstance.post('/signup', {
         email,
@@ -57,10 +60,21 @@ const LoginSignup = ({ onLogin }) => { // Use onLogin to pass login handler
         surname
       });
 
+
       setSuccess('Registration successful! Please log in.');
       setIsLogin(true);  // After signup, return to login screen
+      
+      setUsername('');
+      setSurname('');
     } catch (err) {
-      setError('Registration failed. Please try again.');
+      // Check if the error has a response from the server
+      if (err.response && err.response.data) {
+        const errorMessage = err.response.data;
+        setError(errorMessage);
+      } else {
+        // Fallback error message if no specific message is returned
+        setError('Registration failed. Please try again.');
+      }
     }
   };
 
@@ -178,7 +192,11 @@ const LoginSignup = ({ onLogin }) => { // Use onLogin to pass login handler
         </form>
 
         <div className="submit-container">
-          <button className="submit gray" onClick={() => setIsLogin(!isLogin)}>
+          <button className="submit gray" onClick={() => { 
+            setIsLogin(!isLogin);
+            setError('');
+            setSuccess(''); 
+          }}>
             {isLogin ? 'Signup' : 'Login'}
           </button>
         </div>

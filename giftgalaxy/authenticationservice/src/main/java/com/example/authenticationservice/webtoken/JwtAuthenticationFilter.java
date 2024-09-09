@@ -34,6 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         //Get the "Authorization" header from request
         String authHeader = request.getHeader("Authorization");
         //if authorization header doesn't match requirements, just ignore the request
+        //for debugging
         System.out.println("Request URL: " + request.getRequestURL());
         System.out.println("Authorization Header: " + authHeader);
     
@@ -49,8 +50,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         //parse username from token
         String username = jwtService.extractUsername(jwt);
 
+        //for debugging
         System.out.println("JWT Token: " + jwt);
-System.out.println("Username extracted: " + username);
+        System.out.println("Username extracted: " + username);
 
 
         //check if it is not null and also if it is not already authenticated
@@ -68,6 +70,8 @@ System.out.println("Username extracted: " + username);
                 //we want to track who is logging into the system
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
+
+                //for debugging
                 System.out.println("OUTPUT: Setting authentication in SecurityContextHolder with user: " + authenticationToken.getPrincipal());
                 System.out.println("OUTPUT: Authentication authorities: " + authenticationToken.getAuthorities());
     
@@ -75,7 +79,8 @@ System.out.println("Username extracted: " + username);
 
                 //set security context as login
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);  
-                
+
+                //for debugging
                 System.out.println("OUTPUT: SecurityContextHolder authentication set: " + SecurityContextHolder.getContext().getAuthentication());
 
 

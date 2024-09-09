@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
+//create default user at runtime
+
 @Configuration
 public class DefaultUserConfig {
 
@@ -22,7 +25,7 @@ public class DefaultUserConfig {
         return args -> {
             String defaultEmail = "user@example.com";
             String defaultUsername = "defaultUser";
-            String defaultPassword = "password";  // Note: This should be encoded
+            String defaultPassword = "password"; 
 
             // Check if the default user already exists by email
             if (userRepository.findByEmail(defaultEmail).isEmpty()) {
