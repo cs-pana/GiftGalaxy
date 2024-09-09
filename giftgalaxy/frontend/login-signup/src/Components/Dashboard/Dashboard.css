@@ -90,22 +90,27 @@
     background-color: #bb62e1; /* Cambia colore al passaggio del mouse */
 }
 
+.logout-button-container {
+    position: relative;
+    display: flex;
+    justify-content: flex-end; /* Allinea a destra */
+    margin-top: -64px; /* Aggiusta la posizione verticale */
+}
+
 .logout-button {
-    width: 120px; /* Dimensione del bottone */
-    height: 50px; /* Altezza del bottone */
-    border-radius: 50px; /* Arrotonda gli angoli */
+    width: 80px; /* Dimensione del bottone */
+    height: 45px; /* Altezza del bottone */
+    border-radius: 80px; /* Arrotonda gli angoli */
     font-size: 16px; /* Dimensione del testo */
     font-weight: 600; /* Peso del testo */
-    background-color: #d1c3e1; /* Colore di sfondo del bottone */
-    color: #36022a; /* Colore del testo */
-    border: 4px solid #36022a; /* Bordo del bottone */
+    background-color: rgb(15, 169, 241); /* Colore di sfondo del bottone */
+    color: #fff;; /* Colore del testo */
+    border-color:black ; /* Bordo del bottone */
     cursor: pointer; /* Cambia il cursore quando sopra il bottone */
     transition: background-color 0.3s ease; /* Transizione per cambiamento di colore */
     display: block;
-    margin: 20px auto; /* Centra il bottone orizzontalmente e aggiunge spazio verticale */
+    margin: 10 px; /* Centra il bottone orizzontalmente e aggiunge spazio verticale */
+    font-size:14px;
+    
 }
 
-
-.logout-button:hover {
-    background-color: #bb62e1; /* Cambia colore al passaggio del mouse */
-}

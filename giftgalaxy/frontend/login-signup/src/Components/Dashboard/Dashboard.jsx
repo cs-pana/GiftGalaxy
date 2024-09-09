@@ -50,8 +50,10 @@ const Dashboard = ({ setIsLoggedIn }) => {
           <button className="wishButton">Important Events</button>
           <button className="eventButton">Your Wishlist</button>
         </div>
-        <button className="back-button" onClick={handleGoBack}>Back</button> {/* Back button */}
+        {/*<button className="back-button" onClick={handleGoBack}>Back</button> {/* Back button */}
+        <div className="logout-button-container">
         <button className="logout-button" onClick={handleLogout}>Logout</button> {/* Logout button */}
+        </div>
       </div>
     </div>
   );

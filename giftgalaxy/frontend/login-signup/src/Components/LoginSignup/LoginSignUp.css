@@ -6,7 +6,7 @@
     width: 400px;
     background: #ffffff;
     padding-bottom: 30px;
-    height: 530px;
+    height: 535px;
     border-radius: 50px;
     
     
@@ -16,9 +16,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 9px;
+    gap: 0px;
     width: 100%;
-    margin-top: 30px; 
+    margin-top: -4px; 
     
     
 }
@@ -35,10 +35,11 @@
     height: 5px;
     background: rgb(15, 169, 241);
     border-radius: 9px;
+    margin-top: -20px;
 }
 
 .inputs{
-    margin-top:45px;
+    margin-top:20px;
     display: flex;
     flex-direction: column;
     gap: 25px;
@@ -48,8 +49,8 @@
     display: flex;
     align-items: center;
     margin: auto;
-    width: 350px;
-    height: 50px;
+    width: 360px;
+    height: 45px;
     background: #eaeaea;
     border-radius: 15px;
 }
@@ -88,17 +89,20 @@
 
 .submit-container{
 
-    display: flex;
+    display: center;
     gap: 30px;
-    margin: 60px auto;
+    margin:10px ;
+    width: 100%;  
+    margin-left: 120px;
+    margin-top: -10;
 }
 
 .submit{
-    display: flex;
+    display: center;
     justify-content: center;
     align-items: center;
     width: 150px;
-    height: 45px;
+    height: 40px;
     color: #fff;
     background: rgb(15, 169, 241);
     border-radius: 50px;
@@ -126,4 +130,22 @@
     height: 275px;
 
     
+}
+
+.google-login-butt{
+    display: center;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 40px;
+    color: #06935b;
+    background: #EAEAEA;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: "Noto Sans KR", sans-serif;
+    margin-left: 120px;
+    margin-top:10px;
+
 }

@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import './LoginSignUp.css';
 import axiosInstance from '../axiosInstance'; 
 import { useNavigate } from 'react-router-dom';
+import { auth,provider } from './firebase';
+import { signInWithPopup } from 'firebase/auth';
 
 import user_icon from '../Assets/person icon.png';
 import email_icon from '../Assets/email icon.png';
 import password_icon from '../Assets/password icon.png';
 import logo from '../Assets/logo3.png';
+import googleloginimage from '../Assets/google-login.png'
 
 const LoginSignup = ({ onLogin }) => { // Use onLogin to pass login handler
   const [isLogin, setIsLogin] = useState(true);  // Switch between login and signup
@@ -58,6 +61,43 @@ const LoginSignup = ({ onLogin }) => { // Use onLogin to pass login handler
       setIsLogin(true);  // After signup, return to login screen
     } catch (err) {
       setError('Registration failed. Please try again.');
+    }
+  };
+
+  // login with google
+  const handleGoogleLogin = async () => {
+    try {
+
+      console.log('Attempting Google Login...');
+      const result = await signInWithPopup(auth, provider);
+
+      if(result) {
+      const user = result.user;
+      console.log('Google login successful:', user);
+
+      const userData = {
+        uid: user.uid,
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL
+      };
+
+      localStorage.setItem('jwtToken', user.uid);
+
+      console.log('Google Login success :', userData);
+
+      // Navigate to dashboard
+      
+      navigate('/dashboard');
+    } else {
+      console.error('Google Login failed. No user returned.');
+    }
+
+
+      
+    } catch (err) {
+      console.error('Error in Google Login:', err)
+      
     }
   };
 
@@ -139,7 +179,12 @@ const LoginSignup = ({ onLogin }) => { // Use onLogin to pass login handler
 
         <div className="submit-container">
           <button className="submit gray" onClick={() => setIsLogin(!isLogin)}>
-            {isLogin ? 'Switch to Signup' : 'Switch to Login'}
+            {isLogin ? 'Signup' : 'Login'}
+          </button>
+        </div>
+        <div className="Google-login">
+          <button className="google-login-butt" onClick={handleGoogleLogin}>
+            Login with Google
           </button>
         </div>
       </div>
