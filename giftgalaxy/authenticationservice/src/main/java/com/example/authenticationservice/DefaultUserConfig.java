@@ -24,14 +24,16 @@ public class DefaultUserConfig {
     public ApplicationRunner defaultUserInitializer() {
         return args -> {
             String defaultEmail = "user@example.com";
-            String defaultUsername = "defaultUser";
-            String defaultPassword = "password"; 
+            String defaultUsername = "Default";
+            String defaultSurname = "User";
+            String defaultPassword = "password";
 
             // Check if the default user already exists by email
             if (userRepository.findByEmail(defaultEmail).isEmpty()) {
                 // Create the default user
                 User defaultUser = new User();
                 defaultUser.setUsername(defaultUsername);
+                defaultUser.setSurname(defaultSurname);
                 defaultUser.setEmail(defaultEmail);
                 defaultUser.setPassword(passwordEncoder.encode(defaultPassword));
 

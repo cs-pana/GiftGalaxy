@@ -46,7 +46,6 @@ public class RegistrationController {
         
     }
 
-    
      /* // Validate password 
      private boolean isValidPassword(String password) {
         //At least 6 characters, one uppercase, one lowercase, one number
