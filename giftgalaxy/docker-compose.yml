@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  auth-service:
+    image: authentication-service:latest
+    container_name: auth-service
+    build:
+      context: ./authenticationservice
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+  frontend:
+    image: frontend-app:latest
+    container_name: frontend
+    build:
+      context: ./frontend/login-signup
+    ports:
+      - "3000:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
