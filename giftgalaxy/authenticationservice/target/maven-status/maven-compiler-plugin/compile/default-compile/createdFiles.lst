@@ -1,0 +1,13 @@
+com\example\authenticationservice\model\UserRepository.class
+com\example\authenticationservice\controller\AuthController.class
+com\example\authenticationservice\AuthenticationserviceApplication.class
+com\example\authenticationservice\model\User.class
+com\example\authenticationservice\model\UserService.class
+com\example\authenticationservice\webtoken\LoginForm.class
+com\example\authenticationservice\controller\LoginController.class
+com\example\authenticationservice\DefaultUserConfig.class
+com\example\authenticationservice\webtoken\JwtService.class
+com\example\authenticationservice\controller\RegistrationController.class
+com\example\authenticationservice\security\SecurityConfig.class
+com\example\authenticationservice\security\SecurityConfig$1.class
+com\example\authenticationservice\webtoken\JwtAuthenticationFilter.class

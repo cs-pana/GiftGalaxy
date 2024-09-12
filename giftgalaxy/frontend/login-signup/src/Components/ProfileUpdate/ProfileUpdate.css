@@ -1,0 +1,194 @@
+.profile-update-container .back-button {
+    
+    width: 120px;
+    height: 40px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: #d1c3e1;
+    color: #36022a;
+    border: 3px solid #36022a;
+    transition: background-color 0.3s ease;
+    justify-content: center;
+    align-items: center;
+    margin-left:auto;
+    
+}
+
+.back-button:hover {
+    background-color: #bb62e1;
+}
+
+/* Stile per il logo */
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+}
+
+.logo img {
+    width: 275px;
+    height: 275px; 
+}
+
+.title{
+    text-align: center;
+}
+
+.profile-info-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+/* Stile per l'immagine del profilo */
+.profile-info-container .profile-image {
+    width: 100px; /* Dimensione dell'immagine del profilo */
+    height: 100px; /* Dimensione dell'immagine del profilo */
+    border-radius: 50%; /* Rende l'immagine rotonda */
+    margin-right: 20px; /* Spazio tra l'immagine e i dati del profilo */
+    object-fit: cover; /* Assicura che l'immagine non venga distorta */
+}
+
+/* Stile per le informazioni del profilo */
+.profile-info-container .profile-details {
+    font-size: 16px; /* Dimensione del testo */
+    color: rgb(15, 169, 241); 
+}
+
+
+/* Stile per il contenitore del profilo */
+.profile-update-container {
+    margin: auto;
+    margin-top: -50px;
+    width: 700px; 
+    background: #ffffff;
+    padding: 15px; 
+    border-radius: 50px;
+    height: auto; 
+    max-height: 80vh; /*max altezza per la scrollbar*/
+    overflow-y: auto; /*abilito lo scroll verticale*/
+    
+    
+    
+}
+
+.profile-update-container::-webkit-scrollbar{
+    width:12px;
+    
+}
+.profile-update-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 50px;
+}
+
+.profile-update-container::-webkit-scrollbar-thumb {
+    background: #bb62e1;
+    border-radius: 50px;
+}
+
+.profile-update-container::-webkit-scrollbar-thumb:hover {
+    background: rgb(15, 169, 241)
+}
+
+
+
+/* Stile per i bottoni principali */
+.edit-button, .add-event-button, .profile-update-container button {
+    width: 140px; 
+    height: 40px; 
+    border-radius: 25px; 
+    font-size: 14px; 
+    font-weight: 600;
+    background-color: #d1c3e1;
+    color: #36022a;
+    border: 3px solid #36022a;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Noto Sans KR", sans-serif;
+    margin: 8px 0; 
+}
+
+.edit-button:hover, .add-event-button:hover {
+    background-color: #bb62e1;
+}
+
+/* Stile per la lista degli eventi */
+.events-list {
+    margin-top: 15px;
+}
+
+.events-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.events-list li {
+    margin-bottom: 8px; 
+    border: 1px solid #d1c3e1;
+    padding: 8px; 
+    border-radius: 8px; 
+}
+
+.events-list button {
+    width: 100px; 
+    height: 30px; 
+    border-radius: 25px; 
+    font-size: 12px; 
+    font-weight: 600;
+    background-color: #d1c3e1;
+    color: #36022a;
+    border: 3px solid #36022a;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 8px; 
+}
+
+.events-list button:hover {
+    background-color: #bb62e1;
+}
+
+/* Stile per i moduli di aggiunta e modifica evento */
+form {
+    margin-top: 15px; 
+}
+
+form div {
+    margin-bottom: 8px; 
+}
+
+form label {
+    display: block;
+    margin-bottom: 4px; 
+    color: rgb(15, 169, 241);
+    font-size: 14px; 
+}
+
+form input {
+    width: calc(100% - 16px); 
+    padding: 8px; 
+    border-radius: 4px; 
+    border: 1px solid #d1c3e1;
+}
+
+form button {
+    width: 100px; 
+    height: 40px; 
+    border-radius: 25px; 
+    font-size: 14px; 
+    font-weight: 600;
+    background-color: #d1c3e1;
+    color: #36022a;
+    border: 4px solid #36022a;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 8px; 
+}
+
+form button:hover {
+    background-color: #bb62e1;
+}

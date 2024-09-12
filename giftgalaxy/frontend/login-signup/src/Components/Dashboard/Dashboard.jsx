@@ -26,6 +26,12 @@ const Dashboard = ({ setIsLoggedIn }) => {
     navigate('/');
   };
 
+  const goToProfileUpdate = () => {
+    navigate('/profile-update'); // Naviga alla pagina di aggiornamento profilo
+  };
+
+
+
   const handleGoBack = () => {
     if (window.history.length > 1) {
       navigate(-1); // if there are previous pages, go back
@@ -45,14 +51,13 @@ const Dashboard = ({ setIsLoggedIn }) => {
           <p>Here you can manage your profile, view and add important events, and manage your wishlist. Choose an option below to get started!</p>
         </div>
         <div className="main-button-container">
-          <button className="main-button">Gift Suggestion</button>
-          <button className="updateButton">Update Profile</button>
-          <button className="wishButton">Important Events</button>
-          <button className="eventButton">Your Wishlist</button>
-        </div>
+          <button className="main-button">Gift suggestion</button>
+          <button className="updateButton" onClick={goToProfileUpdate}>Update profile and events</button>
+          <button className="eventButton">Your wishlist</button>
         {/*<button className="back-button" onClick={handleGoBack}>Back</button> {/* Back button */}
         <div className="logout-button-container">
         <button className="logout-button" onClick={handleLogout}>Logout</button> {/* Logout button */}
+        </div>
         </div>
       </div>
     </div>

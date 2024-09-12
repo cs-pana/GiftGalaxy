@@ -5,7 +5,7 @@ import './App.css';
 import LoginSignUp from './Components/LoginSignup/LoginSignUp';
 import Dashboard from './Components/Dashboard/Dashboard';
 import PrivateRoute from './Components/PrivateRoute';
-
+import ProfileUpdate from './Components/ProfileUpdate/ProfileUpdate';
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('jwtToken'));
 
@@ -31,6 +31,14 @@ const App = () => {
           </PrivateRoute>
         } 
       />
+      <Route 
+        path="/profile-update"
+        element={
+          <PrivateRoute isLoggedIn={isLoggedIn}>
+            <ProfileUpdate />
+          </PrivateRoute>
+        }
+        />
     </Routes>
   );
 };

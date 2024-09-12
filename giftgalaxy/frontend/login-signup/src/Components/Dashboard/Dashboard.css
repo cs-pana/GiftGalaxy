@@ -67,6 +67,7 @@
      font-family: "Noto Sans KR", sans-serif;
 }
 
+
 .main-button:hover, .updateButton:hover, .wishButton:hover, .eventButton:hover {
     background-color: #bb62e1; 
 }
@@ -98,19 +99,21 @@
 }
 
 .logout-button {
-    width: 80px; /* Dimensione del bottone */
-    height: 45px; /* Altezza del bottone */
-    border-radius: 80px; /* Arrotonda gli angoli */
-    font-size: 16px; /* Dimensione del testo */
-    font-weight: 600; /* Peso del testo */
-    background-color: rgb(15, 169, 241); /* Colore di sfondo del bottone */
-    color: #fff;; /* Colore del testo */
-    border-color:black ; /* Bordo del bottone */
-    cursor: pointer; /* Cambia il cursore quando sopra il bottone */
-    transition: background-color 0.3s ease; /* Transizione per cambiamento di colore */
-    display: block;
-    margin: 10 px; /* Centra il bottone orizzontalmente e aggiunge spazio verticale */
-    font-size:14px;
+    width: 160px; 
+    height: 160px; 
+    border-radius: 50%; 
+    font-size: 18px;
+    font-weight: 600;
+    background-color: #d1c3e1;
+    color: #36022a;
+    border: 4px solid #36022a;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+     font-family: "Noto Sans KR", sans-serif;
+     margin-top: 65px;
     
 }
 
