@@ -3,19 +3,19 @@ version: '3.8'
 services:
 
 # MySQL container to store users' credentials
-  mysql:
-    image: mysql:8
-    container_name: mysql-container
+#  mysql:
+#    image: mysql:8
+#    container_name: mysql-container
     # restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: mysql
-      MYSQL_DATABASE: giftgalaxydb
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - app-network
+#    environment:
+#      MYSQL_ROOT_PASSWORD: mysql
+#      MYSQL_DATABASE: giftgalaxydb
+#    ports:
+#      - "3306:3306"
+#    volumes:
+#      - mysql-data:/var/lib/mysql
+#    networks:
+#      - app-network
 
 
   auth-service:
@@ -26,11 +26,17 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/giftgalaxydb
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: mysql
-    depends_on:
-      - mysql
+      #SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/giftgalaxydb
+      #SPRING_DATASOURCE_USERNAME: root
+      #SPRING_DATASOURCE_PASSWORD: mysql
+
+      #FreeSQLDatabase
+      SPRING_DATASOURCE_URL: jdbc:mysql://sql7.freesqldatabase.com:3306/sql7730799
+      SPRING_DATASOURCE_USERNAME: sql7730799
+      SPRING_DATASOURCE_PASSWORD: UZipIRjYkW
+      
+    #depends_on:
+    #  - mysql
     networks:
       - app-network
 
@@ -49,5 +55,5 @@ networks:
   app-network:
     driver: bridge
 
-volumes:
-  mysql-data:
+#volumes:
+#  mysql-data:
