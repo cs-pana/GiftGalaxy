@@ -24,6 +24,7 @@ const ProfileUpdate = () => {
   const [editingEventId, setEditingEventId] = useState(null);
   const [editingEventName, setEditingEventName] = useState('');
   const [editingEventDate, setEditingEventDate] = useState('');
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const navigate = useNavigate();
 
  /* THIS PART IS USEFUL FOR THE RECOVERY OF THE REAL USER DATA
@@ -69,11 +70,6 @@ const ProfileUpdate = () => {
   }
 */
 
-  // navigate to update profile page
-  const handleEditProfileClick = () => {
-    navigate('/edit-profile'); 
-  };
-
   // navigate to update event page
   const handleAddEventClick = () => {
     setIsAddingEvent(true);
@@ -100,6 +96,7 @@ const ProfileUpdate = () => {
         setEditingEventId(event.id);
         setEditingEventName(event.name);
         setEditingEventDate(event.date);
+        setNotificationsEnabled(event.notificationsEnabled);
       };
     
       // Function to save the update of the event
@@ -112,9 +109,17 @@ const ProfileUpdate = () => {
               : event
           );
           setEvents(updatedEvents);
-          setEditingEventId(null); // Chiudi il modulo di modifica evento
+          setEditingEventId(null); // Close modify event module
         }
       };
+
+      const handleDeleteEvent = (id) => {
+        setEvents(events.filter(event => event.id !== id));
+      };
+
+      const handleEditProfileClick = () => {
+        navigate('/profile-info-upd'); 
+    };
 
       const handleBackClick = () => {
         navigate('/dashboard'); 
@@ -144,7 +149,7 @@ const ProfileUpdate = () => {
         Update profile
       </button>
 
-      <h2>Events</h2>
+      <h2 className="eventTitle">Events</h2>
       <button className="add-event-button" onClick={handleAddEventClick}>
         Add new event
       </button>
@@ -203,18 +208,33 @@ const ProfileUpdate = () => {
                         required
                       />
                     </div>
+                    <div>
+                        <label>Notifications:</label>
+                        <input className="notification"
+                          type="checkbox"
+                          checked={notificationsEnabled}
+                          onChange={(e) => setNotificationsEnabled(e.target.checked)}
+                          />
+                    </div>
+                    <div className="modify-button-cont">
                     <button type="submit">Save changes</button>
                     <button type="button" onClick={() => setEditingEventId(null)}>
                       Exit
                     </button>
+                    </div>
                   </form>
                 ) : (
                   <div>
                     <strong>Event Name:</strong> {event.name} <br />
                     <strong>Date:</strong> {event.date} <br />
-                    <button onClick={() => handleEditEventClick(event)}>
+                    <div className="modify-button-cont">
+                    <button className="modify-button" onClick={() => handleEditEventClick(event)}>
                       Modify Event
                     </button>
+                    <button className="delete-button" onClick={() => handleDeleteEvent(event.id)}>
+                      Delete Event
+                    </button>
+                    </div>
                   </div>
                 )}
               </li>
