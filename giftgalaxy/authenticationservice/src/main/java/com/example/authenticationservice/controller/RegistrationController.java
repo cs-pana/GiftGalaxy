@@ -1,7 +1,11 @@
 package com.example.authenticationservice.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.example.authenticationservice.model.User;
 import com.example.authenticationservice.model.UserRepository;
@@ -23,6 +28,9 @@ public class RegistrationController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @PostMapping(value = "/signup", consumes = "application/json")
     public ResponseEntity<String> createUser(@Valid @RequestBody User user) {
@@ -41,7 +49,24 @@ public class RegistrationController {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        //info needed to create profile
+        UserProfileDto userProfileDto = new UserProfileDto(
+            savedUser.getId(),
+            savedUser.getUsername(),
+            savedUser.getSurname(),
+            savedUser.getEmail()
+            );
+
+        HttpEntity<UserProfileDto> request = new HttpEntity<>(userProfileDto, headers);
+
+        //call profile service (running on another port)
+        restTemplate.postForEntity("http://localhost:8081/profiles/create", request, UserProfileDto.class);
+
         return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
         
     }
@@ -58,6 +83,55 @@ public class RegistrationController {
         String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
         return email.matches(emailPattern);
     }
+
+    // Dto class for user's info for profile
+    static class UserProfileDto {
+        private Long userId;
+        private String username;
+        private String surname;
+        private String email;
+
+        public UserProfileDto(Long userId, String username, String surname, String email) {
+            this.userId = userId;
+            this.username = username;
+            this.surname = surname;
+            this.email = email;
+        }
+
+        // Getters and Setters
+        public Long getUserId() {
+            return userId;
+        }
+
+        public void setUserId(Long userId) {
+            this.userId = userId;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getSurname() {
+            return surname;
+        }
+
+        public void setSurname(String surname) {
+            this.surname = surname;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+    }
+    
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
