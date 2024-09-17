@@ -40,6 +40,22 @@ services:
     networks:
       - app-network
 
+  profile-service:
+    image: profile-service:latest
+    container_name: profile-service
+    build:
+      context: ./profileservice
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://sql7.freesqldatabase.com:3306/sql7730799
+      SPRING_DATASOURCE_USERNAME: sql7730799
+      SPRING_DATASOURCE_PASSWORD: UZipIRjYkW
+    networks:
+      - app-network
+    depends_on:
+      - auth-service  #auth-service is up before profile-service
+
   frontend:
     image: frontend-app:latest
     container_name: frontend

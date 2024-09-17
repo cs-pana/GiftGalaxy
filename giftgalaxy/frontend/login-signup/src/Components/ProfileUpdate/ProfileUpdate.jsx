@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../axiosInstance'; 
+import axiosInstance, { switchToProfileService } from '../axiosInstance'; 
 import './ProfileUpdate.css'; 
 import logo from '../Assets/logo3.png'
 import profilePic from '../Assets/profile-image.jpg';
 
 const ProfileUpdate = () => {
     //states for the user data and events
-  const [userData] = useState({
+  /*const [userData] = useState({
     username: 'Mario' ,
     surname: 'Rossi',
     email: 'mario.rossi@example.com'
-  }); 
+  }); */
+  const[userData, setUserData] = useState(null);
   const [events, setEvents] = useState([
     {id:1, name: 'Compleanno di Maria', date: '2024-09-20'},
     { id:2, name: 'Anniversario di Paolo', date: '2024-12-15'}
@@ -25,6 +26,8 @@ const ProfileUpdate = () => {
   const [editingEventName, setEditingEventName] = useState('');
   const [editingEventDate, setEditingEventDate] = useState('');
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
  /* THIS PART IS USEFUL FOR THE RECOVERY OF THE REAL USER DATA
@@ -69,6 +72,51 @@ const ProfileUpdate = () => {
     return <p>Errore nel recupero dei dati dell'utente.</p>;
   }
 */
+
+useEffect(() => {
+  const fetchData = async () => {
+      try {
+          switchToProfileService();
+        //const userId = 1; // replace with the actual user ID, if needed
+          const token = localStorage.getItem('jwtToken');
+          if (!token) {
+              throw new Error('No token found');
+          }
+
+          //fetch user data
+          const userResponse = await axiosInstance.get(`/profiles/me`, {
+              headers: {
+                  Authorization: `Bearer ${token}`
+              }
+          });
+          setUserData(userResponse.data);
+
+          //  fetching events for this user
+          // const eventsResponse = await axios.get(`/user/events/${userId}`, {
+          //     headers: {
+          //         Authorization: `Bearer ${token}`
+          //     }
+          // });
+          // setEvents(eventsResponse.data);
+
+          setLoading(false);
+      } catch (error) {
+          console.error('Error fetching data:', error);
+          setError('Failed to fetch user data.');
+          setLoading(false);
+      }
+  };
+
+  fetchData();
+}, []);
+
+if (loading) {
+  return <p>Loading data...</p>;
+}
+
+if (error) {
+  return <p>{error}</p>;
+}
 
   // navigate to update event page
   const handleAddEventClick = () => {

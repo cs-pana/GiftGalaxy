@@ -65,7 +65,9 @@ public class RegistrationController {
         HttpEntity<UserProfileDto> request = new HttpEntity<>(userProfileDto, headers);
 
         //call profile service (running on another port)
-        restTemplate.postForEntity("http://localhost:8081/profiles/create", request, UserProfileDto.class);
+        //restTemplate.postForEntity("http://localhost:8081/profiles/create", request, UserProfileDto.class);
+        restTemplate.postForEntity("http://profile-service:8081/profiles/create", request, UserProfileDto.class);
+
 
         return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
         

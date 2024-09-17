@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './LoginSignUp.css';
-import axiosInstance from '../axiosInstance'; 
+import axiosInstance, { switchToAuthService } from '../axiosInstance'; 
 import { useNavigate } from 'react-router-dom';
 import { auth,provider } from './firebase';
 import { signInWithPopup } from 'firebase/auth';
@@ -23,6 +23,8 @@ const LoginSignup = ({ onLogin }) => { // Use onLogin to pass login handler
 
   // Handle login
   const handleLogin = async (e) => {
+
+    switchToAuthService();
     e.preventDefault();
     setError('');
     try {
@@ -49,6 +51,7 @@ const LoginSignup = ({ onLogin }) => { // Use onLogin to pass login handler
 
   // Handle signup
   const handleSignup = async (e) => {
+    switchToAuthService();
     e.preventDefault();
 
     setError('');

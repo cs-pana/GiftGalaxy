@@ -9,7 +9,6 @@ import com.example.profileservice.dto.UserProfileDto;
 import com.example.profileservice.model.UserProfile;
 import com.example.profileservice.repository.UserProfileRepository;
 
-import java.util.Optional;
 import java.util.NoSuchElementException;
 
 
@@ -46,6 +45,12 @@ public class UserProfileService {
     public UserProfileDto getUserProfile(Long userId) {
         UserProfile user = userProfileRepository.findById(userId)
             .orElseThrow(() -> new NoSuchElementException("User not found with id " + userId));
+        return new UserProfileDto(user.getId(), user.getUsername(), user.getSurname(), user.getEmail());
+    }
+
+    public UserProfileDto getUserProfileByEmail(String email) {
+        UserProfile user = userProfileRepository.findByEmail(email)
+            .orElseThrow(() -> new NoSuchElementException("User not found with id " + email));
         return new UserProfileDto(user.getId(), user.getUsername(), user.getSurname(), user.getEmail());
     }
 }
