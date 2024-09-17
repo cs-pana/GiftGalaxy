@@ -13,11 +13,13 @@ const ProfileUpdate = () => {
     email: 'mario.rossi@example.com'
   }); */
   const[userData, setUserData] = useState(null);
-  const [events, setEvents] = useState([
+
+  /*const [events, setEvents] = useState([
     {id:1, name: 'Compleanno di Maria', date: '2024-09-20'},
     { id:2, name: 'Anniversario di Paolo', date: '2024-12-15'}
 
-  ]);         
+  ]);*/
+  const [events, setEvents] = useState([]);
 
   const [isAddingEvent, setIsAddingEvent] = useState(false);
   const [newEventName, setNewEventName] = useState('');
@@ -77,7 +79,6 @@ useEffect(() => {
   const fetchData = async () => {
       try {
           switchToProfileService();
-        //const userId = 1; // replace with the actual user ID, if needed
           const token = localStorage.getItem('jwtToken');
           if (!token) {
               throw new Error('No token found');
@@ -90,14 +91,14 @@ useEffect(() => {
               }
           });
           setUserData(userResponse.data);
-
-          //  fetching events for this user
-          // const eventsResponse = await axios.get(`/user/events/${userId}`, {
-          //     headers: {
-          //         Authorization: `Bearer ${token}`
-          //     }
-          // });
-          // setEvents(eventsResponse.data);
+          
+          //fetch user's events
+          const eventsResponse = await axiosInstance.get('/profiles/me/events', {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+          });
+          setEvents(eventsResponse.data);
 
           setLoading(false);
       } catch (error) {
@@ -124,45 +125,95 @@ if (error) {
   };
 
     // function to Add a new event 
-    const handleAddEvent = (e) => {
+    const handleAddEvent = async (e) => {
+      switchToProfileService();
+
         e.preventDefault();
         if (newEventName && newEventDate) {
-          const newEvent = {
+          /*const newEvent = {
             id: events.length + 1, // create a fake id 
             name: newEventName,
             date: newEventDate
-          };
-          setEvents([...events, newEvent]);
+          };*/
+          const token = localStorage.getItem('jwtToken');
+          try {
+            const newEvent = {
+              name: newEventName,
+              eventDate: newEventDate,
+              notify: notificationsEnabled
+            };
+            const response = await axiosInstance.post('/profiles/me/events', newEvent, {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            });
+
+          setEvents([...events, response.data]);
           setNewEventName('');
           setNewEventDate('');
+          setNotificationsEnabled(false);
           setIsAddingEvent(false); // Close the module of add event
+        } catch (error) {
+          console.error('Error adding event: ', error);
+          setError('Failed to add event.');
         }
+      }
       };
     
       // Function to modify the event
       const handleEditEventClick = (event) => {
         setEditingEventId(event.id);
         setEditingEventName(event.name);
-        setEditingEventDate(event.date);
-        setNotificationsEnabled(event.notificationsEnabled);
+        setEditingEventDate(event.eventDate);
+        setNotificationsEnabled(event.notify);
       };
     
       // Function to save the update of the event
-      const handleSaveEventChanges = (e) => {
+      const handleSaveEventChanges = async (e) => {
+        switchToProfileService();
+
         e.preventDefault();
         if (editingEventName && editingEventDate) {
-          const updatedEvents = events.map((event) =>
-            event.id === editingEventId
-              ? { ...event, name: editingEventName, date: editingEventDate }
-              : event
-          );
-          setEvents(updatedEvents);
-          setEditingEventId(null); // Close modify event module
+          const token = localStorage.getItem('jwtToken');
+            
+          try {
+              const updatedEvent = {
+                  name: editingEventName,
+                  eventDate: editingEventDate, 
+                  notify: notificationsEnabled 
+                };
+              const response = await axiosInstance.put(`/profiles/me/events/${editingEventId}`, updatedEvent, {
+                  headers: {
+                      Authorization: `Bearer ${token}`
+                  }
+              });
+                
+              setEvents(events.map(event => 
+                  event.id === editingEventId ? response.data : event
+              ));
+              setEditingEventId(null); // Close modify event module
+        } catch (error) {
+          console.error('Error updating event:', error);
+          setError('Failed to update event.');
         }
-      };
+      }
+    };
 
-      const handleDeleteEvent = (id) => {
-        setEvents(events.filter(event => event.id !== id));
+      const handleDeleteEvent = async (id) => {
+        //setEvents(events.filter(event => event.id !== id));
+        switchToProfileService();
+        const token = localStorage.getItem('jwtToken');
+        try {
+          await axiosInstance.delete(`/profiles/me/events/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          setEvents(events.filter(event => event.id !== id));
+        } catch (error) {
+          console.error('Error deleting event:', error);
+          setError('Failed to delete event.');
+        }
       };
 
       const handleEditProfileClick = () => {
@@ -222,6 +273,14 @@ if (error) {
               required
             />
           </div>
+          <div>
+            <label>Notifications:</label>
+              <input
+                type="checkbox"
+                checked={notificationsEnabled}
+                onChange={(e) => setNotificationsEnabled(e.target.checked)}
+              />
+          </div>
           <button type="submit">Add event</button>
           <button type="button" onClick={() => setIsAddingEvent(false)}>
             Cancel
@@ -274,7 +333,7 @@ if (error) {
                 ) : (
                   <div>
                     <strong>Event Name:</strong> {event.name} <br />
-                    <strong>Date:</strong> {event.date} <br />
+                    <strong>Date:</strong> {event.eventDate} <br />
                     <div className="modify-button-cont">
                     <button className="modify-button" onClick={() => handleEditEventClick(event)}>
                       Modify Event

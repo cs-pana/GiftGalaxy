@@ -50,7 +50,7 @@ public class UserProfileService {
 
     public UserProfileDto getUserProfileByEmail(String email) {
         UserProfile user = userProfileRepository.findByEmail(email)
-            .orElseThrow(() -> new NoSuchElementException("User not found with id " + email));
+            .orElseThrow(() -> new NoSuchElementException("User not found with email " + email));
         return new UserProfileDto(user.getId(), user.getUsername(), user.getSurname(), user.getEmail());
     }
 }
