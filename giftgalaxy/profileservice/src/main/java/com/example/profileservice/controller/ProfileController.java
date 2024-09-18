@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.profileservice.dto.EventDto;
 import com.example.profileservice.dto.UserProfileDto;
 import com.example.profileservice.model.Event;
@@ -25,6 +25,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/profiles")
 public class ProfileController {
 
@@ -88,4 +89,19 @@ public class ProfileController {
         eventService.deleteEventForUser(email, eventId);
         return ResponseEntity.noContent().build();
     }
+/*
+    @PutMapping("/me")
+    public ResponseEntity<UserProfile> updateProfile(@RequestBody UserProfileDto userProfileDto) {
+     String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+     UserProfile updatedProfile = userProfileService.updateUserProfileByEmail(email, userProfileDto);
+     return ResponseEntity.ok(updatedProfile);
+}
+*/
+@PutMapping("/update-profile")
+public ResponseEntity<UserProfile> updateProfile(@RequestBody UserProfileDto userProfileDto) {
+    String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    UserProfile updatedProfile = userProfileService.updateUserProfileByEmail(email, userProfileDto);
+    return ResponseEntity.ok(updatedProfile);
+}
+
 }

@@ -9,6 +9,7 @@ import com.example.profileservice.dto.UserProfileDto;
 import com.example.profileservice.model.UserProfile;
 import com.example.profileservice.repository.UserProfileRepository;
 
+
 import java.util.NoSuchElementException;
 
 
@@ -17,6 +18,8 @@ public class UserProfileService {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+     
 
     public UserProfile createUserProfile(UserProfileDto userProfileDto) {
 
@@ -52,6 +55,20 @@ public class UserProfileService {
         UserProfile user = userProfileRepository.findByEmail(email)
             .orElseThrow(() -> new NoSuchElementException("User not found with email " + email));
         return new UserProfileDto(user.getId(), user.getUsername(), user.getSurname(), user.getEmail());
+    }
+
+    // Metodo per aggiornare il profilo utente tramite email
+    public UserProfile updateUserProfileByEmail(String email, UserProfileDto userProfileDto) {
+        UserProfile userProfile = userProfileRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Aggiorna i dati del profilo
+        userProfile.setUsername(userProfileDto.getUsername());
+        userProfile.setSurname(userProfileDto.getSurname());
+        userProfile.setEmail(userProfileDto.getEmail());
+
+        // Salva i nuovi dati nel database
+        return userProfileRepository.save(userProfile);
     }
 }
     
