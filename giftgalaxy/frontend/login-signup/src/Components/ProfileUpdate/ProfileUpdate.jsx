@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance, { switchToProfileService } from '../axiosInstance'; 
 import './ProfileUpdate.css'; 
 import logo from '../Assets/logo3.png'
-import profilePic from '../Assets/profile-image.jpg';
+//import profilePic from '../Assets/profile-image.jpg';
 
 const ProfileUpdate = () => {
     //states for the user data and events
@@ -236,7 +236,7 @@ if (error) {
       <h2 className="title">My profile page</h2>
 
       <div className="profile-info-container">
-                    <img src={profilePic} alt="Foto Profilo" className="profile-image" />
+                   {/* <img src={profilePic} alt="Foto Profilo" className="profile-image" /> */}
                     <div className="profile-details">
                         <p><strong>Name:</strong> {userData.username}</p>
                         <p><strong>Surname:</strong> {userData.surname}</p>

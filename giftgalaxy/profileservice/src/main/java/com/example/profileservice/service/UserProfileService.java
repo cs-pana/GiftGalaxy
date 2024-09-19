@@ -19,8 +19,6 @@ public class UserProfileService {
     @Autowired
     private UserProfileRepository userProfileRepository;
 
-     
-
     public UserProfile createUserProfile(UserProfileDto userProfileDto) {
 
         //check if profile for user  already exists
@@ -38,7 +36,6 @@ public class UserProfileService {
         profile.setEmail(userProfileDto.getEmail());
         profile.setUsername(userProfileDto.getUsername());
         profile.setSurname(userProfileDto.getSurname());
-
 
 
         return userProfileRepository.save(profile);

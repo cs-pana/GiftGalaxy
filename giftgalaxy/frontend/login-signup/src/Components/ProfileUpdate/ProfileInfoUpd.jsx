@@ -3,17 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import './ProfileInfoUpd.css';
 import axiosInstance, { switchToProfileService } from '../axiosInstance'; 
 import logo from '../Assets/logo3.png'
-import profilePic from '../Assets/profile-image.jpg';
+//import profilePic from '../Assets/profile-image.jpg';
 
 const ProfileInfoUpd = () => {
     const [userData, setUserData] = useState({
-        profilePic: profilePic, // existant image (placeholder)
+       // profilePic: profilePic, // existant image (placeholder)
         username: '',
         surname: '',
         email: '',
     });
 
-    const [newProfilePic, setNewProfilePic] = useState(null);
+    //const [newProfilePic, setNewProfilePic] = useState(null);
     const [newUsername, setNewUsername] = useState('');
     const [newSurname, setNewSurname] = useState('');
     const [newEmail, setNewEmail] = useState('');
@@ -59,9 +59,9 @@ const ProfileInfoUpd = () => {
         fetchData();
     },[]);
 
-    const handleProfilePicChange = (e) => {
-        setNewProfilePic(URL.createObjectURL(e.target.files[0]));
-    };
+   // const handleProfilePicChange = (e) => {
+    //    setNewProfilePic(URL.createObjectURL(e.target.files[0]));
+   // };
 
     const handleSaveChanges = async (e) => {
         e.preventDefault();
@@ -72,7 +72,7 @@ const ProfileInfoUpd = () => {
             username: newUsername,
             surname: newSurname,
             email: newEmail,
-            profilePic: newProfilePic || userData.profilePic,
+           // profilePic: newProfilePic || userData.profilePic,
         };
 
         // Effettua una richiesta PUT per aggiornare il profilo
@@ -126,7 +126,7 @@ const ProfileInfoUpd = () => {
             </button>
             <h2 className="title">Update profile information</h2>
             <form onSubmit={handleSaveChanges} className="edit-profile-form">
-                <div className="profile-pic-section">
+              {/* <div className="profile-pic-section">
                     <label>Profile image:</label>
                     <input type="file" onChange={handleProfilePicChange} />
                     <img
@@ -134,7 +134,7 @@ const ProfileInfoUpd = () => {
                         alt="Profile Preview"
                         className="profile-pic-preview"
                     />
-                </div>
+                </div> */}
 
                 <div>
                     <label htmlFor="username">Name:</label>
