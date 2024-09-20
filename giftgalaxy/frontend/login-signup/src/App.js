@@ -7,6 +7,9 @@ import Dashboard from './Components/Dashboard/Dashboard';
 import PrivateRoute from './Components/PrivateRoute';
 import ProfileUpdate from './Components/ProfileUpdate/ProfileUpdate';
 import ProfileInfoUpd from './Components/ProfileUpdate/ProfileInfoUpd';
+
+import Notifications from './Components/Notifications/Notifications';
+
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('jwtToken'));
 
@@ -22,6 +25,15 @@ const App = () => {
           isLoggedIn ? <Navigate to="/dashboard" /> : <LoginSignUp onLogin={handleLogin} />
         } 
       />
+
+      <Route
+        path="/notifications/:userId"
+        element={
+          <Notifications />
+         }
+      />
+
+    {/*<Route path="*" element={<NotFound />} />*/}
 
       {/* Dashboard route protected by PrivateRoute */}
       <Route 

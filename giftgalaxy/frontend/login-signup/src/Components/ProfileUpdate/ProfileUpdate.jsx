@@ -91,6 +91,7 @@ useEffect(() => {
               }
           });
           setUserData(userResponse.data);
+          console.log(userData);
           
           //fetch user's events
           const eventsResponse = await axiosInstance.get('/profiles/me/events', {
@@ -224,6 +225,17 @@ if (error) {
         navigate('/dashboard'); 
     };
 
+    // go to the notifications page for current user
+    const handleNotificationsClick = () => {
+      console.log(userData);
+      if (userData && userData.userId) {
+        console.log("Navigating to notifications for user:", userData.userId);
+        navigate(`/notifications/${userData.userId}`);
+      } else {
+        console.error("User data is not loaded yet or user ID is missing");
+      }
+    };
+
 
   return (
     
@@ -246,6 +258,11 @@ if (error) {
 
       <button className="edit-button" onClick={handleEditProfileClick}>
         Update profile
+      </button>
+
+      {/* notification button*/}
+      <button className="notifications-button" onClick={handleNotificationsClick}>
+          Notifications <span className="notification-badge">!</span>
       </button>
 
       <h2 className="eventTitle">Events</h2>
