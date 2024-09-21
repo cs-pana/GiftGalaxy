@@ -2,20 +2,26 @@ version: '3.8'
 
 services:
 
-# MySQL container to store users' credentials
-#  mysql:
-#    image: mysql:8
-#    container_name: mysql-container
-    # restart: always
-#    environment:
-#      MYSQL_ROOT_PASSWORD: mysql
+# MySQL container
+  mysql:
+    image: mysql:8
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
 #      MYSQL_DATABASE: giftgalaxydb
-#    ports:
-#      - "3306:3306"
-#    volumes:
-#      - mysql-data:/var/lib/mysql
-#    networks:
-#      - app-network
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+     - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
 
   auth-service:
@@ -26,17 +32,18 @@ services:
     ports:
       - "8080:8080"
     environment:
-      #SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/giftgalaxydb
-      #SPRING_DATASOURCE_USERNAME: root
-      #SPRING_DATASOURCE_PASSWORD: mysql
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/auth_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
 
       #FreeSQLDatabase
-      SPRING_DATASOURCE_URL: jdbc:mysql://sql7.freesqldatabase.com:3306/sql7730799
-      SPRING_DATASOURCE_USERNAME: sql7730799
-      SPRING_DATASOURCE_PASSWORD: UZipIRjYkW
+      #SPRING_DATASOURCE_URL: jdbc:mysql://sql7.freesqldatabase.com:3306/sql7730799
+      #SPRING_DATASOURCE_USERNAME: sql7730799
+      #SPRING_DATASOURCE_PASSWORD: UZipIRjYkW
       
-    #depends_on:
-    #  - mysql
+    depends_on:
+      mysql:
+        condition: service_healthy
     networks:
       - app-network
 
@@ -48,12 +55,16 @@ services:
     ports:
       - "8081:8081"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://sql7.freesqldatabase.com:3306/sql7730799
-      SPRING_DATASOURCE_USERNAME: sql7730799
-      SPRING_DATASOURCE_PASSWORD: UZipIRjYkW
+    #  SPRING_DATASOURCE_URL: jdbc:mysql://sql7.freesqldatabase.com:3306/sql7730799
+    #  SPRING_DATASOURCE_USERNAME: sql7730799
+    #  SPRING_DATASOURCE_PASSWORD: UZipIRjYkW
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/profile_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
     networks:
       - app-network
     depends_on:
+      - mysql
       - auth-service  #auth-service is up before profile-service
 
 
@@ -67,10 +78,14 @@ services:
       - "8082:8082"
     environment:
       # Use H2 in-memory database for now
-      SPRING_PROFILES_ACTIVE: prod 
+      # SPRING_PROFILES_ACTIVE: prod 
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/notification_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
     networks:
       - app-network
     depends_on:
+      - mysql
       - profile-service  # Run profile service first before this
 
   frontend:
@@ -88,5 +103,5 @@ networks:
   app-network:
     driver: bridge
 
-#volumes:
-#  mysql-data:
+volumes:
+  mysql-data:
