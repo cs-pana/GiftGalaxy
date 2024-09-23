@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import com.example.authenticationservice.dto.UserProfileDto;
 
 import com.example.authenticationservice.model.User;
 import com.example.authenticationservice.model.UserRepository;
@@ -55,6 +56,7 @@ public class RegistrationController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         //info needed to create profile
+        //NEW anche qui, il booleano è nuovo
         UserProfileDto userProfileDto = new UserProfileDto(
             savedUser.getId(),
             savedUser.getUsername(),
@@ -86,53 +88,6 @@ public class RegistrationController {
         return email.matches(emailPattern);
     }
 
-    // Dto class for user's info for profile
-    static class UserProfileDto {
-        private Long userId;
-        private String username;
-        private String surname;
-        private String email;
-
-        public UserProfileDto(Long userId, String username, String surname, String email) {
-            this.userId = userId;
-            this.username = username;
-            this.surname = surname;
-            this.email = email;
-        }
-
-        // Getters and Setters
-        public Long getUserId() {
-            return userId;
-        }
-
-        public void setUserId(Long userId) {
-            this.userId = userId;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getSurname() {
-            return surname;
-        }
-
-        public void setSurname(String surname) {
-            this.surname = surname;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-    }
     
 
     @ExceptionHandler(Exception.class)
