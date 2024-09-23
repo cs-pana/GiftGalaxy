@@ -15,6 +15,11 @@
     margin-top: 0px;
     font-size: 22px;
 }
+.description{
+    font-size:14px;
+    margin-top:5px;
+    color: rgb(15, 169, 241);
+}
 .edit-profile-container {
     width: 550px;
     background-color: #ffffff;

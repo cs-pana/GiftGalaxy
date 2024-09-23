@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+//import org.springframework.amqp.rabbit.core.RabbitTemplate;
+
 
 import com.example.profileservice.dto.UserProfileDto;
 import com.example.profileservice.model.UserProfile;
@@ -18,6 +20,13 @@ public class UserProfileService {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+    //@Autowired
+    //private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private ProfileUpdateProducer profileUpdateProducer;
+
+    //private final String EXCHANGE_NAME = "user-profile-updates-exchange";
 
     public UserProfile createUserProfile(UserProfileDto userProfileDto) {
 
@@ -38,20 +47,26 @@ public class UserProfileService {
         profile.setSurname(userProfileDto.getSurname());
 
 
-        return userProfileRepository.save(profile);
+        UserProfile savedProfile = userProfileRepository.save(profile);
+
+        // Pubblica evento su RabbitMQ dopo aver creato il profilo
+        profileUpdateProducer.sendProfileUpdate(userProfileDto);  // Pubblicazione su RabbitMQ
+
+        return savedProfile;
 
     }
-
+   
     public UserProfileDto getUserProfile(Long userId) {
         UserProfile user = userProfileRepository.findById(userId)
             .orElseThrow(() -> new NoSuchElementException("User not found with id " + userId));
         return new UserProfileDto(user.getId(), user.getUsername(), user.getSurname(), user.getEmail());
     }
 
+    
     public UserProfileDto getUserProfileByEmail(String email) {
         UserProfile user = userProfileRepository.findByEmail(email)
             .orElseThrow(() -> new NoSuchElementException("User not found with email " + email));
-        return new UserProfileDto(user.getId(), user.getUsername(), user.getSurname(), user.getEmail());
+        return new UserProfileDto(user.getUserId(), user.getUsername(), user.getSurname(), user.getEmail());
     }
 
     // Metodo per aggiornare il profilo utente tramite email
@@ -59,13 +74,26 @@ public class UserProfileService {
         UserProfile userProfile = userProfileRepository.findByEmail(email)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Aggiorna i dati del profilo
+        
+            // Aggiorna i dati del profilo
         userProfile.setUsername(userProfileDto.getUsername());
         userProfile.setSurname(userProfileDto.getSurname());
         userProfile.setEmail(userProfileDto.getEmail());
 
+        
+        System.out.println("Dati aggiornati per il profilo utente con email: " + email);
+        
         // Salva i nuovi dati nel database
-        return userProfileRepository.save(userProfile);
-    }
+        UserProfile updatedProfile = userProfileRepository.save(userProfile);
+        userProfileDto.setUserId(userProfile.getUserId());
+
+        System.out.println("Profilo salvato nel database per l'email: " + email);
+    
+        //pubblica evento su rabbitmq
+        profileUpdateProducer.sendProfileUpdate(userProfileDto);
+        
+
+        return updatedProfile;
+    } 
 }
     

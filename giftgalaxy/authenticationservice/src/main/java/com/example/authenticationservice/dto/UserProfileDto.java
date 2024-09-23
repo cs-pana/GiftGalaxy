@@ -1,5 +1,6 @@
-package com.example.profileservice.dto;
+package com.example.authenticationservice.dto;
 import java.io.Serializable;
+
 
 
 import lombok.AllArgsConstructor;
@@ -16,5 +17,4 @@ public class UserProfileDto implements Serializable {
     private String surname;
     private String email;
     
-
 }

@@ -8,6 +8,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+//import com.example.authenticationservice.controller.RegistrationController.UserProfileDto;
+
+//import org.springframework.amqp.rabbit.annotation.RabbitListener;
+
 import lombok.AllArgsConstructor;
 
 @Service
@@ -36,4 +40,20 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException(email);
         }
     }
+
+  /*   @RabbitListener(queues = "user-profile-updates-queue")
+    public void handleUserProfileUpdate(UserProfileDto userProfileDto) {
+        // Trova l'utente nel database dell'auth service
+        User user = repository.findByEmail(userProfileDto.getEmail())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Aggiorna i dati dell'utente
+        user.setUsername(userProfileDto.getUsername());
+        user.setSurname(userProfileDto.getSurname());
+        user.setEmail(userProfileDto.getEmail());
+
+        // Salva i nuovi dati nel database
+        repository.save(user);
+    }
+     */
 }

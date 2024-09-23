@@ -1,6 +1,37 @@
 version: '3.8'
 
 services:
+# MySQL container
+  mysql:
+    image: mysql:8
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: giftgalaxydb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+     - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+
+  # RabbitMQ service
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"    # Porta per la comunicazione RabbitMQ
+      - "15672:15672"  # Porta per l'interfaccia di gestione web
+    networks:
+      - app-network
 
 # MySQL container to store users' credentials
 #  mysql:
@@ -26,19 +57,24 @@ services:
     ports:
       - "8080:8080"
     environment:
-      #SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/giftgalaxydb
-      #SPRING_DATASOURCE_USERNAME: root
-      #SPRING_DATASOURCE_PASSWORD: mysql
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/auth_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
 
       #FreeSQLDatabase
-      SPRING_DATASOURCE_URL: jdbc:mysql://sql7.freesqldatabase.com:3306/sql7730799
-      SPRING_DATASOURCE_USERNAME: sql7730799
-      SPRING_DATASOURCE_PASSWORD: UZipIRjYkW
+      #SPRING_DATASOURCE_URL: jdbc:mysql://sql7.freesqldatabase.com:3306/sql7730799
+      #SPRING_DATASOURCE_USERNAME: sql7730799
+      #SPRING_DATASOURCE_PASSWORD: UZipIRjYkW
       
-    #depends_on:
-    #  - mysql
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      
     networks:
       - app-network
+    depends_on:
+      - rabbitmq  # auth-service dipende da rabbitmq
+      - mysql
+
 
   profile-service:
     image: profile-service:latest
@@ -48,13 +84,21 @@ services:
     ports:
       - "8081:8081"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://sql7.freesqldatabase.com:3306/sql7730799
-      SPRING_DATASOURCE_USERNAME: sql7730799
-      SPRING_DATASOURCE_PASSWORD: UZipIRjYkW
+      #SPRING_DATASOURCE_URL: jdbc:mysql://sql7.freesqldatabase.com:3306/sql7730799
+      #SPRING_DATASOURCE_USERNAME: sql7730799
+      #SPRING_DATASOURCE_PASSWORD: UZipIRjYkW
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/profile_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
     networks:
       - app-network
     depends_on:
       - auth-service  #auth-service is up before profile-service
+      - rabbitmq
+      - mysql
 
 
 # Notification service
@@ -67,12 +111,18 @@ services:
       - "8082:8082"
     environment:
       # Use H2 in-memory database for now
-      SPRING_PROFILES_ACTIVE: prod 
+      #SPRING_PROFILES_ACTIVE: prod 
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/notification_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
     networks:
       - app-network
     depends_on:
+      - mysql
       - profile-service  # Run profile service first before this
-
   frontend:
     image: frontend-app:latest
     container_name: frontend
@@ -88,5 +138,5 @@ networks:
   app-network:
     driver: bridge
 
-#volumes:
-#  mysql-data:
+volumes:
+  mysql-data:

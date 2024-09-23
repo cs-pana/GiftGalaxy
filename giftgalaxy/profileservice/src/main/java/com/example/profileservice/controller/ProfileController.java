@@ -118,6 +118,9 @@ public class ProfileController {
     public ResponseEntity<UserProfile> updateProfile(@RequestBody UserProfileDto userProfileDto) {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserProfile updatedProfile = userProfileService.updateUserProfileByEmail(email, userProfileDto);
+        //nuova riga
+        userProfileDto.setUserId(updatedProfile.getUserId());
+
         return ResponseEntity.ok(updatedProfile);
     }
 

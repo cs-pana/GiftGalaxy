@@ -69,6 +69,7 @@ const ProfileInfoUpd = () => {
         const jwtToken = localStorage.getItem('jwtToken');
 
         const updatedUserData = {
+            userId: userData.id,
             username: newUsername,
             surname: newSurname,
             email: newEmail,
@@ -91,6 +92,8 @@ const ProfileInfoUpd = () => {
             return response.json(); // Ricevi i dati aggiornati
         })
         .then((data) => {
+            console.log("Dati ricevuti dal server:", data);
+            
             // Aggiorna lo stato con i dati restituiti
             setUserData({
                 ...userData,
@@ -102,6 +105,7 @@ const ProfileInfoUpd = () => {
     
             // Naviga indietro o mostra un messaggio di successo
             navigate('/profile-update'); // Torna alla pagina del profilo
+          
         })
         .catch((error) => {
             console.error('Errore durante il salvataggio del profilo:', error);
@@ -125,6 +129,7 @@ const ProfileInfoUpd = () => {
                 Go back
             </button>
             <h2 className="title">Update profile information</h2>
+            <p className="description">Here you can modify your name and your surname</p>
             <form onSubmit={handleSaveChanges} className="edit-profile-form">
               {/* <div className="profile-pic-section">
                     <label>Profile image:</label>
@@ -161,11 +166,12 @@ const ProfileInfoUpd = () => {
                 <div>
                     <label htmlFor="email">Email:</label>
                     <input
-                        type="email"
+                        type="text"
                         value={newEmail}
                         id="email"
-                        onChange={(e) => setNewEmail(e.target.value)}
-                        required
+                        readOnly // Impedisce la modifica
+                        style={{ border: 'none', background: 'none', padding: 0 }} // Per rimuovere lo stile di input
+                        
                     />
                 </div>
                 <div className="button-container">
