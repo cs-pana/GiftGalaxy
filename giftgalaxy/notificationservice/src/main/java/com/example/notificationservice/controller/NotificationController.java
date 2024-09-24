@@ -32,21 +32,15 @@ public class NotificationController {
     private NotificationRepository notificationRepository;
 
 
-    //render the notifications for userId that are about upcoming events (2 days before)
+    //render the notifications for userId that are about upcoming events (in the next two days)
     @GetMapping("/{userId}")
     public List<Notification> getUserNotifications(@PathVariable Long userId) {
-        /*LocalDateTime now = LocalDateTime.now();
-        LocalDateTime daysBefore = now.minusDays(2);
-
-        return notificationRepository.findByUserIdAndNotifiedFalse(userId).stream()
-                .filter(notification -> notification.getNotificationDate().isAfter(daysBefore) &&
-                notification.getNotificationDate().isBefore(now))
-                .collect(Collectors.toList());*/
         LocalDateTime now = LocalDateTime.now();
+        LocalDateTime startOfToday = now.toLocalDate().atStartOfDay();  // Start of today
         LocalDateTime daysAhead = now.plusDays(2);  //events for the next two days
             
         return notificationRepository.findByUserIdAndNotifiedFalse(userId).stream()
-                .filter(notification -> notification.getNotificationDate().isAfter(now.minusSeconds(1)) 
+                .filter(notification -> notification.getNotificationDate().isAfter(startOfToday.minusSeconds(1)) 
                     && notification.getNotificationDate().isBefore(daysAhead))  // only future notifications up to 2 days ahead
                     .collect(Collectors.toList());
             }
@@ -64,6 +58,19 @@ public class NotificationController {
         );
     return ResponseEntity.ok("Notification created successfully");
     }
+
+
+    /*@PutMapping("/update")
+    public ResponseEntity<String> updateNotification(@RequestBody NotificationDto notificationDto) {
+        notificationService.updateNotification(
+            notificationDto.getEventId(),
+            notificationDto.getUserId(),
+            notificationDto.getEmail(),
+            notificationDto.getMessage(),
+            notificationDto.getNotificationDate()
+        );
+        return ResponseEntity.ok("Notification updated successfully");
+    }*/
 
     // delete notification of event with eventId: called when that event is deleted or notify is set to false
     @DeleteMapping("/delete/{eventId}")

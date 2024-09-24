@@ -29,7 +29,10 @@ const App = () => {
       <Route
         path="/notifications/:userId"
         element={
-          <Notifications />
+          <PrivateRoute isLoggedIn={isLoggedIn}>
+            <Notifications setIsLoggedIn/>
+          </PrivateRoute>
+          
          }
       />
 

@@ -79,7 +79,7 @@ public class ProfileController {
         Event newEvent = eventService.createEventForUser(email, eventDto);
 
         if (newEvent.isNotify()) {
-            sendNotification(newEvent);
+            sendNotification(newEvent, request); //if notifications are enabled for the event, create notification
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(newEvent);
@@ -89,11 +89,11 @@ public class ProfileController {
     public ResponseEntity<Event> updateEvent(@PathVariable Long eventId, @RequestBody EventDto eventDto, HttpServletRequest request) {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Event updatedEvent = eventService.updateEventForUser(email, eventId, eventDto);
-
+        System.out.println("Updating event...");
         if(!updatedEvent.isNotify()) {
-            deleteNotification(eventId); }
+            deleteNotification(eventId, request); }
         else {
-            sendNotification(updatedEvent);
+            sendNotification(updatedEvent, request);
         }
 
         return ResponseEntity.ok(updatedEvent);
@@ -103,7 +103,7 @@ public class ProfileController {
     public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId, HttpServletRequest request) {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         eventService.deleteEventForUser(email, eventId);
-        deleteNotification(eventId);
+        deleteNotification(eventId, request);
         return ResponseEntity.noContent().build();
     }
 /*
@@ -124,30 +124,72 @@ public class ProfileController {
         return ResponseEntity.ok(updatedProfile);
     }
 
-    private void sendNotification(Event event) {
+    private void sendNotification(Event event, HttpServletRequest request) {
         try {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        NotificationDto notificationRequest = new NotificationDto(
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+    
+            String token = request.getHeader("Authorization");
+            if (token != null && !token.isEmpty()) {
+                headers.set("Authorization", token);
+            }
+    
+            NotificationDto notificationRequest = new NotificationDto(
+                    event.getId(),
+                    event.getUserProfile().getId(),
+                    event.getUserProfile().getEmail(),
+                    "You have an upcoming event: " + event.getName(),
+                    event.getEventDate().atTime(0, 0)
+            );
+    
+            HttpEntity<NotificationDto> requestNotif = new HttpEntity<>(notificationRequest, headers);
+            ResponseEntity<Void> response = restTemplate.postForEntity(notificationUrl + "/create", requestNotif, Void.class);
+    
+            System.out.println("Notification creation response: " + response.getStatusCode());
+            
+        } catch (Exception e) {
+            System.out.println("Failed to send notification: " + e.getMessage());
+        }
+    }
+    
+    /*private void updateNotification(Event event, HttpServletRequest request) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+    
+            String token = request.getHeader("Authorization");
+            if (token != null && !token.isEmpty()) {
+                headers.set("Authorization", token);
+            }
+    
+            NotificationDto notificationRequest = new NotificationDto(
                 event.getId(),
                 event.getUserProfile().getId(),
                 event.getUserProfile().getEmail(),
                 "You have an upcoming event: " + event.getName(),
                 event.getEventDate().atTime(0, 0)
-        );
-
-        HttpEntity<NotificationDto> requestNotif = new HttpEntity<>(notificationRequest, headers);
-        restTemplate.postForEntity(notificationUrl + "/create", requestNotif, Void.class);
+            );
+    
+            HttpEntity<NotificationDto> requestNotif = new HttpEntity<>(notificationRequest, headers);
+            restTemplate.put(notificationUrl + "/update", requestNotif, Void.class);
+    
         } catch (Exception e) {
-            System.out.println("Failed to send notification: " + e.getMessage());
+            System.out.println("Failed to update notification: " + e.getMessage());
         }
-    }
+    }*/
+    
 
-    private void deleteNotification(Long eventId) {
+    private void deleteNotification(Long eventId, HttpServletRequest request) {
         try {
+            String token = request.getHeader("Authorization");
+            HttpHeaders headers = new HttpHeaders();
+            if (token != null && !token.isEmpty()) {
+            headers.set("Authorization", token);  // Pass the token to the Notification Service
+        }
+            HttpEntity<Void> deleteRequest = new HttpEntity<>(headers);
+            restTemplate.exchange(notificationUrl + "/delete/" + eventId, HttpMethod.DELETE, deleteRequest, Void.class);
             //String notifDeleteUrl = "http://notification-service:8082/notifications/delete/" + eventId;
-            restTemplate.exchange(notificationUrl + "/delete/" + eventId, HttpMethod.DELETE, null, Void.class);
+            //restTemplate.exchange(notificationUrl + "/delete/" + eventId, HttpMethod.DELETE, null, Void.class);
         } catch (Exception e) {
             System.out.println("Failed to delete notification: " + e.getMessage());
         }

@@ -1,6 +1,7 @@
 package com.example.profileservice.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,5 +103,15 @@ public class EventService {
         dto.setNotify(event.isNotify());
         return dto;
     }
+
+    public Event getEventById(Long eventId) {
+        Optional<Event> eventOptional = eventRepository.findById(eventId);
+        if (eventOptional.isPresent()) {
+            return eventOptional.get();
+        } else {
+            throw new RuntimeException("Event not found with id: " + eventId);
+        }
+    }
+
     
 }

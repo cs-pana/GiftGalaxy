@@ -231,3 +231,44 @@ form button {
 form button:hover {
     background-color: #bb62e1;
 }
+
+.button-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin: 20px 0;
+  }
+
+
+  /* for loading and error*/
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f5f5;
+    color: #0099ff;
+    border: 2px solid #0099ff;
+    padding: 10px;
+    margin: 20px auto;
+    width: 60%;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffcccc;
+    color: #d32f2f;
+    border: 2px solid #d32f2f;
+    padding: 10px;
+    margin: 20px auto;
+    width: 60%;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}

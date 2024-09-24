@@ -1,24 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance, { switchToProfileService } from '../axiosInstance'; 
+import axiosInstance, { switchToProfileService, switchToNotifService } from '../axiosInstance'; 
 import './ProfileUpdate.css'; 
 import logo from '../Assets/logo3.png'
 //import profilePic from '../Assets/profile-image.jpg';
 
 const ProfileUpdate = () => {
-    //states for the user data and events
-  /*const [userData] = useState({
-    username: 'Mario' ,
-    surname: 'Rossi',
-    email: 'mario.rossi@example.com'
-  }); */
   const[userData, setUserData] = useState(null);
 
-  /*const [events, setEvents] = useState([
-    {id:1, name: 'Compleanno di Maria', date: '2024-09-20'},
-    { id:2, name: 'Anniversario di Paolo', date: '2024-12-15'}
-
-  ]);*/
   const [events, setEvents] = useState([]);
 
   const [isAddingEvent, setIsAddingEvent] = useState(false);
@@ -31,49 +20,6 @@ const ProfileUpdate = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
- /* THIS PART IS USEFUL FOR THE RECOVERY OF THE REAL USER DATA
- 
- useEffect(() => {
-    // Simula una richiesta API per ottenere i dati dell'utente e gli eventi
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem('jwtToken'); // Verifica il token salvato
-
-        // Ottenere i dati dell'utente
-        const userResponse = await axiosInstance.get('/user/profile', {
-          headers: {
-            Authorization: `Bearer ${token}` // Usa il token per autenticare la richiesta
-          }
-        });
-        setUserData(userResponse.data);
-
-        // Ottenere gli eventi dell'utente
-        const eventsResponse = await axiosInstance.get('/user/events', {
-          headers: {
-            Authorization: `Bearer ${token}` // Usa il token per autenticare la richiesta
-          }
-        });
-        setEvents(eventsResponse.data);
-
-        setLoading(false);
-      } catch (error) {
-        console.error('Errore nel recupero dei dati:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (loading) {
-    return <p>Caricamento dati...</p>;
-  }
-
-  if (!userData) {
-    return <p>Errore nel recupero dei dati dell'utente.</p>;
-  }
-*/
 
 useEffect(() => {
   const fetchData = async () => {
@@ -113,12 +59,21 @@ useEffect(() => {
 }, []);
 
 if (loading) {
-  return <p>Loading data...</p>;
+  return (
+    <div className="loading-container">
+      <p>Loading data...</p>
+    </div>
+  );
 }
 
 if (error) {
-  return <p>{error}</p>;
+  return (
+    <div className="error-container">
+      <p>{error}</p>
+    </div>
+  );
 }
+
 
   // navigate to update event page
   const handleAddEventClick = () => {
@@ -183,6 +138,7 @@ if (error) {
                   eventDate: editingEventDate, 
                   notify: notificationsEnabled 
                 };
+              console.log('Updated event being sent: (from FRONTEND) ', updatedEvent);
               const response = await axiosInstance.put(`/profiles/me/events/${editingEventId}`, updatedEvent, {
                   headers: {
                       Authorization: `Bearer ${token}`
@@ -260,15 +216,16 @@ if (error) {
         Update profile
       </button>
 
-      {/* notification button*/}
-      <button className="notifications-button" onClick={handleNotificationsClick}>
-          Notifications <span className="notification-badge">!</span>
-      </button>
-
       <h2 className="eventTitle">Events</h2>
-      <button className="add-event-button" onClick={handleAddEventClick}>
+      <div className="button-container">
+        <button className="add-event-button" onClick={handleAddEventClick}>
         Add new event
-      </button>
+        </button>
+        <button className="notifications-button" onClick={handleNotificationsClick}>
+         Notifications <span className="notification-badge">!</span>
+        </button>
+      </div>
+
 
       {isAddingEvent && (
         <form onSubmit={handleAddEvent}>

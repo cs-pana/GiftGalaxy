@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,20 +19,33 @@ public class NotificationService {
     @Autowired
     private NotificationRepository notificationRepository;
 
-    //@Autowired
-    //private JavaMailSender javaMailSender;
+    @Autowired
+    private JavaMailSender javaMailSender;
     
-
     public void createNotification(Long eventId, Long userId, String email, String message, LocalDateTime notificationDate) {
 
         // Check if a notification already exists for this event and user
-        if (notificationRepository.findByEventIdAndUserId(eventId, userId).isPresent()) {
-            System.out.println("Notification already exists for eventId: " + eventId + " and userId: " + userId);
+        if (notificationRepository.findByEventId(eventId).isPresent()) {
+            System.out.println("Notification already exists for eventId: " + eventId + " ...maybe update");
+            updateNotification(eventId, userId, email, message, notificationDate);
         return;  // Don't create a new notification if one already exists
         }
         Notification notification = new Notification();
         notification.setEventId(eventId);
         notification.setUserId(userId);
+        notification.setEmail(email);
+        notification.setMessage(message);
+        notification.setNotificationDate(notificationDate);
+        notification.setNotified(false);
+        notificationRepository.save(notification);
+    }
+
+    // Update existing notification if exists
+    public void updateNotification(Long eventId, Long userId, String email, String message, LocalDateTime notificationDate) {
+        System.out.println("Updating notification...");
+        Notification notification = notificationRepository.findByEventId(eventId)
+                .orElseThrow(() -> new RuntimeException("Notification not found for eventId: " + eventId));
+
         notification.setEmail(email);
         notification.setMessage(message);
         notification.setNotificationDate(notificationDate);
@@ -45,10 +60,15 @@ public class NotificationService {
 
     @Transactional
     public void deleteNotificationByEventId(Long eventId) {
-        notificationRepository.deleteByEventId(eventId);
+        boolean exists = notificationRepository.existsByEventId(eventId);
+        if (exists) {
+            notificationRepository.deleteByEventId(eventId);
+        } else {
+            System.out.println("There were already no notifications for " + eventId);
+        }
     }
 
-    @Scheduled(cron = "0 0/2 * * * *") //scheduled to run every 2 minutes (for now), since there's no actual email configuration..
+    @Scheduled(cron = "0 0/2 * * * *") //scheduled to run every 2 minutes (for testing - for production, maybe every 6 hours???)
     public void sendNotifications() {
         LocalDateTime now = LocalDateTime.now();
         List<Notification> notifications = notificationRepository.findAll();
@@ -57,8 +77,7 @@ public class NotificationService {
 
             LocalDateTime eventDate = notification.getNotificationDate();
             LocalDateTime startSending = eventDate.minusDays(2); //start sending notifications 2 days before the event
-            LocalDateTime stopSending = eventDate; //stop sending notifications at the event start time
-
+            LocalDateTime stopSending = eventDate.plusDays(1); //stop sending notifications one day after the event
             try {
                 if (now.isAfter(startSending) && now.isBefore(stopSending) && !notification.isNotified()) {
                     System.out.println("Processing notification: " + notification);
@@ -76,17 +95,32 @@ public class NotificationService {
     
 
     private void sendEmail(String email, String message) {
-        /* sending email logic
+        // sending email logic
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo("user-email@example.com");  // Retrieve email based on userId or pass email somehoww???
-        mailMessage.setSubject("Event Notification");
+        mailMessage.setTo(email);  // Retrieve email based on userId or pass email somehoww???
+        mailMessage.setSubject("GiftGalaxy: Event Notification");
         mailMessage.setText(message);
         javaMailSender.send(mailMessage);
-        */
 
-        //for now print log
-        System.out.println("Sending email to user " + email + "with message: " + message);
+        //Verify
+        System.out.println("Sent email to user " + email + "with message: " + message);
     }
+
+
+    // Schedule to delete old notifications
+    /*@Scheduled(cron = "0 0 0 * * *") // Run every day at midnight
+    @Transactional
+    public void deleteOldNotifications() {
+        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
+        List<Notification> oldNotifications = notificationRepository.findByNotificationDateBefore(yesterday); //or findByNotifiedTrueAndNotificationDateBefore ????
+
+        if (!oldNotifications.isEmpty()) {
+            System.out.println("Deleting old notifications...");
+            notificationRepository.deleteAll(oldNotifications);
+        } else {
+            System.out.println("No old notifications to delete.");
+        }
+    }*/
 }
 
 
