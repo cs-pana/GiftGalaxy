@@ -7,8 +7,9 @@ import Dashboard from './Components/Dashboard/Dashboard';
 import PrivateRoute from './Components/PrivateRoute';
 import ProfileUpdate from './Components/ProfileUpdate/ProfileUpdate';
 import ProfileInfoUpd from './Components/ProfileUpdate/ProfileInfoUpd';
-
+import GiftSuggestion from './Components/GiftSuggestion/GiftSuggestion';
 import Notifications from './Components/Notifications/Notifications';
+import GiftSuggestionsResult from './Components/GiftSuggestion/GiftSuggestionResult';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('jwtToken'));
@@ -61,6 +62,22 @@ const App = () => {
         </PrivateRoute>
         } 
         />
+        <Route 
+        path="/gift-suggestion" 
+        element={
+          <PrivateRoute isLoggedIn={isLoggedIn}>
+            <GiftSuggestion />
+          </PrivateRoute>
+        } 
+      />
+      <Route 
+        path="/gift-suggestion-result" 
+        element={
+          <PrivateRoute isLoggedIn={isLoggedIn}>
+            <GiftSuggestionsResult />
+          </PrivateRoute>
+        } 
+      />
     </Routes>
   );
 };

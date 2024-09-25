@@ -1,0 +1,140 @@
+.gift-suggestion-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: -30px;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 275px;
+    height: 275px;
+}
+
+.form-container {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 50px;
+    width: 600px;
+    margin-top: -80px;
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto; /* Aggiunta scrollbar verticale */
+    max-height: 80vh; /* Limite altezza con scrollbar */
+}
+
+.tendina{
+    width: 600px;
+    height: 40px;
+}
+.cont{
+    height: 40px;
+}
+
+h2 {
+    color: #0fa9f1;
+    font-family: "Noto Sans KR", sans-serif;
+    text-align: center;
+    margin-bottom: 10px;
+    
+}
+
+label {
+    font-weight: 500;
+    margin-top: 5px;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 15px;
+}
+
+.form-container .back-button {
+    width: 95px;
+    height: 40px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: #d1c3e1;
+    color: #36022a;
+    border: 3px solid #36022a;
+    transition: background-color 0.3s ease;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-left: 500px;
+    margin-top:-27px;
+    margin-bottom: -20px;
+
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 2px solid #36022a;
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+.interestlabel{
+    margin-top: 10px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap; /* Permette l'organizzazione in più righe */
+    justify-content: center; /* Centra il gruppo di checkbox */
+    gap: 20px; /* Spazio tra le colonne */
+    width: 100%; /* Mantiene il gruppo centrato */
+    margin-top: 20px;
+}
+
+.checkbox-group label {
+    width: auto; /* Auto per adattarsi alla lunghezza del contenuto */
+    text-align: center; /* Centra il testo della label */
+    margin-bottom: 10px; 
+    
+}
+.checkbox-group input {
+    margin-top: 5px; /* Spazio sopra il checkbox */
+    
+}
+.checkbox-item {
+    display: flex;
+    flex-direction: column; /* La label si trova sopra il checkbox */
+    align-items: center; /* Centra label e checkbox nella colonna */
+    width: 45%; /* Larghezza per creare due colonne */
+    margin-bottom: 10px; /* Spazio tra i checkbox e la fine della sezione */
+}
+
+
+.search-button {
+    width: 120px;
+    height: 40px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    background-color: #d1c3e1;
+    color: #36022a;
+    border: 3px solid #36022a;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 250px;
+
+    transition: background-color 0.3s ease;
+    font-family: "Noto Sans KR", sans-serif;
+    margin-bottom: -20px;
+}
+
+.search-button:hover {
+    background-color: #bb62e1;
+}
