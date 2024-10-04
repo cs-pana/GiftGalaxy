@@ -7,18 +7,21 @@ const GiftSuggestionsResult = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Recupera i dati dal navigate (per ora simuliamo dei suggerimenti)
-  const { recipientName, event } = location.state || {};
+  // Recupera i dati dal navigate and other info
+  const { suggestions,recipientName, event } = location.state || {};
 
   const [wishlist, setWishlist] = useState([]);
+  const [error, setError] = useState(null);
+
+  console.log("Suggestions received:", suggestions);
 
   // Suggerimenti fittizi
-  const suggestions = [
-    { name: 'Amazon Gift Card', link: 'https://www.amazon.com', source: 'Amazon' },
-    { name: 'Concert Ticket', link: 'https://www.ticketone.it', source: 'TicketOne' },
-    { name: 'Fitbit Watch', link: 'https://www.amazon.com', source: 'Amazon' },
-    { name: 'Bluetooth Headphones', link: 'https://www.amazon.com', source: 'Amazon' },
-  ];
+ // const suggestions = [
+   // { name: 'Amazon Gift Card', link: 'https://www.amazon.com', source: 'Amazon' },
+    //{ name: 'Concert Ticket', link: 'https://www.ticketone.it', source: 'TicketOne' },
+    //{ name: 'Fitbit Watch', link: 'https://www.amazon.com', source: 'Amazon' },
+    //{ name: 'Bluetooth Headphones', link: 'https://www.amazon.com', source: 'Amazon' },
+  //];
 
   // Aggiunge un regalo alla wishlist
   const handleAddToWishlist = (item) => {
@@ -45,6 +48,7 @@ const GiftSuggestionsResult = () => {
         <h2 className="title">Gift Suggestions for {recipientName}</h2>
         <p className="event">Event: {event}</p>
 
+        {suggestions && suggestions.length > 0 ? (
         <ul className="suggestion-list">
           {suggestions.map((suggestion, index) => (
             <li key={index} className="suggestion-item">
@@ -56,6 +60,9 @@ const GiftSuggestionsResult = () => {
             </li>
           ))}
         </ul>
+        ) : (
+          <p> No suggestions found. </p>
+        )}
 
         <button className="back-button" onClick={handleBackClick}>Back</button>
       </div>

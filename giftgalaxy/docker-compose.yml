@@ -1,4 +1,4 @@
-version: '3.8'
+version: '4.34.2'
 
 services:
   # MySQL container
@@ -99,7 +99,31 @@ services:
         condition: service_started  # Ensure profile-service is up first
       mysql:
         condition: service_healthy  # Wait for MySQL health check to pass
+  
+  giftsuggestionservice:
+    image: giftsuggestionservice:latest
+    container_name: giftsuggestionservice
+    build:
+      context: ./giftsuggestionservice
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/gift_suggestion_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+    networks:
+      - app-network
+    depends_on:
+      notification-service:
+        condition: service_started  # Ensure notification-service is up first
+      rabbitmq:
+        condition: service_started
+      mysql:
+        condition: service_healthy  # Wait for MySQL health check to pass
 
+        
   frontend:
     image: frontend-app:latest
     container_name: frontend
