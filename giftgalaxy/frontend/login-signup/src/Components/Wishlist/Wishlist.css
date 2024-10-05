@@ -1,0 +1,112 @@
+.wishlistpage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wishlist-items-container {
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 700px; 
+  background: #ffffff; 
+  padding: 15px;
+  border-radius: 50px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -50px; 
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0;
+}
+
+.logo img {
+  width: 275px;
+  height: 275px;
+}
+
+.back-button {
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  width: 100px;
+  height: 35px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: #d1c3e1;
+  color: #36022a;
+  border: 3px solid #36022a;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.back-button:hover {
+  background-color: #bb62e1;
+}
+
+.suggestion-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestion-item {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  text-align: center;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.modify-button, .delete-button {
+  width: 140px;
+  height: 40px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: #d1c3e1;
+  color: #36022a;
+  border: 3px solid #36022a;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+}
+
+.modify-button:hover, .delete-button:hover {
+  background-color: #bb62e1;
+}
+
+.loading-container, .error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  color: #0099ff;
+  border: 2px solid #0099ff;
+  padding: 10px;
+  margin: 20px auto;
+  width: 60%;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.error-container {
+  background-color: #ffcccc;
+  color: #d32f2f;
+  border: 2px solid #d32f2f;
+}

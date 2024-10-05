@@ -51,10 +51,56 @@
     background-color: #bb62e1;
   }
 
+  .added-button {
+    background-color: #e1e1e1;
+    border: none;
+    color: #616161;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: "Noto Sans KR", sans-serif;
+    cursor: not-allowed; 
+    transition: background-color 0.3s ease;
+    opacity: 0.8; 
+}
+
  .gift-suggestion-container .back-button{
   width: 70px;
   height: 40px;
   border-radius: 50px;
   font-size: 12px;
   font-weight: 600;  
+}
+
+/* for loading and error*/
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  color: #0099ff;
+  border: 2px solid #0099ff;
+  padding: 10px;
+  margin: 20px auto;
+  width: 60%;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Style for error message */
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffcccc;
+  color: #d32f2f;
+  border: 2px solid #d32f2f;
+  padding: 10px;
+  margin: 20px auto;
+  width: 60%;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
 }

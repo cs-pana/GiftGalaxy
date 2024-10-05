@@ -19,6 +19,7 @@ FROM nginx:alpine
 
 #copy of the build files of React from the build image
 COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 #port 80
 EXPOSE 80

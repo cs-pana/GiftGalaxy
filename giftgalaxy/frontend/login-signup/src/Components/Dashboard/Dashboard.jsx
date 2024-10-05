@@ -1,19 +1,53 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Dashboard.css'; 
 import logo from '../Assets/logo3.png'
 import { useNavigate } from 'react-router-dom';
+import axiosInstance, {switchToProfileService} from '../axiosInstance';
 
 const Dashboard = ({ setIsLoggedIn }) => {
   const navigate = useNavigate();
+  const[userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // UseEffect to check authentication on component mount
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken'); // Get token from localStorage
+    /*const token = localStorage.getItem('jwtToken'); // Get token from localStorage
     if (!token) {
       // If no token is found, redirect to the login page
       navigate('/');
     }
-  }, [navigate]); // Adding navigate as a dependency ensures it runs once on mount
+  }, [navigate]); // Adding navigate as a dependency ensures it runs once on <mount>*/
+  const fetchUserData = async () => {
+    try {
+      const jwtToken = localStorage.getItem('jwtToken');
+      if (!jwtToken) {
+        setError('Invalid token.');
+        setLoading(false);
+        return;
+      }
+
+      // Switch to profile service to fetch user data
+      console.log("Switching to profile service...");
+      switchToProfileService();
+
+      const userResponse = await axiosInstance.get(`/profiles/me`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`
+        }
+      });
+
+      setUserData(userResponse.data);
+      setLoading(false);
+      console.log("User data fetched:", userResponse.data);
+    } catch (err) {
+      console.error('Error fetching user data:', err);
+      setError('Error fetching user data.');
+      setLoading(false);
+    }
+  };
+  fetchUserData();
+}, []);
 
   const handleLogout = () => {
     // Clear the JWT token from localStorage
@@ -42,6 +76,28 @@ const Dashboard = ({ setIsLoggedIn }) => {
     }
   };
 
+  const goToWishlist = () => {
+    //navigate('/wishlist');
+    navigate(`/wishlist/${userData.userId}`);
+  }
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <p>Loading data...</p>
+      </div>
+    );
+  }
+  
+  if (error) {
+    return (
+      <div className="error-container">
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+
   return (
     <div className="dashboard">
       <div className="logo">
@@ -55,8 +111,8 @@ const Dashboard = ({ setIsLoggedIn }) => {
         <div className="main-button-container">
           <button className="main-button" onClick={goToGiftSuggestion}>Gift suggestion</button>
           <button className="updateButton" onClick={goToProfileUpdate}>Update profile and events</button>
-          <button className="eventButton">Your wishlist</button>
-        {/*<button className="back-button" onClick={handleGoBack}>Back</button> {/* Back button */}
+          <button className="wishButton" onClick={goToWishlist}>Your wishlist</button>        
+          {/*<button className="back-button" onClick={handleGoBack}>Back</button> {/* Back button */}
         <div className="logout-button-container">
         <button className="logout-button" onClick={handleLogout}>Logout</button> {/* Logout button */}
         </div>

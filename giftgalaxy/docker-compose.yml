@@ -70,8 +70,8 @@ services:
     networks:
       - app-network
     depends_on:
-      auth-service:
-        condition: service_started  # Ensure auth-service is up
+    #  auth-service:
+    #    condition: service_started  # Ensure auth-service is up
       rabbitmq:
         condition: service_started
       mysql:
@@ -95,8 +95,8 @@ services:
     networks:
       - app-network
     depends_on:
-      profile-service:
-        condition: service_started  # Ensure profile-service is up first
+    #  profile-service:
+    #    condition: service_started  # Ensure profile-service is up first
       mysql:
         condition: service_healthy  # Wait for MySQL health check to pass
   
@@ -123,7 +123,27 @@ services:
       mysql:
         condition: service_healthy  # Wait for MySQL health check to pass
 
-        
+  wishlist-service:
+    image: wishlist-service:latest
+    container_name: wishlist-service
+    build:
+      context: ./wishlistservice
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/wishlist_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+    networks:
+      - app-network
+    depends_on:
+    #  profile-service:
+    #    condition: service_started
+      mysql:
+        condition: service_healthy
+              
   frontend:
     image: frontend-app:latest
     container_name: frontend

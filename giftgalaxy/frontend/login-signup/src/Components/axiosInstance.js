@@ -26,10 +26,14 @@ export const switchToAuthService = () => {
     axiosInstance.defaults.baseURL = 'http://localhost:8080';
 };
 
-
 //switch to notification service
 export const switchToNotifService = () => {
     axiosInstance.defaults.baseURL = 'http://localhost:8082';
+};
+
+// switch to wishlist service
+export const switchToWishlistService = () => {
+    axiosInstance.defaults.baseURL = 'http://localhost:8084';
 };
 
 export default axiosInstance;

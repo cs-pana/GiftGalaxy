@@ -32,7 +32,7 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:8080", "http://localhost:3000") // authentication service url
+                        .allowedOrigins("http://localhost:8080", "http://localhost:3000", "http://localhost:8084") // authentication service url
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true); // Important for including cookies if needed
@@ -46,7 +46,7 @@ public class SecurityConfig {
         return httpSecurity
         .cors(cors -> cors.configurationSource(request -> {
             var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
-            corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));
+            corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhots:8084"));
             corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
             corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
             corsConfiguration.setAllowCredentials(true); // This allows cookies and Authorization header
