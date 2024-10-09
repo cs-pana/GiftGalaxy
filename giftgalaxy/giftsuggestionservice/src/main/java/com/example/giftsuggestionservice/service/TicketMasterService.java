@@ -63,15 +63,40 @@ public class TicketMasterService {
             StringJoiner queryJoiner = new StringJoiner(" ");
     
             // Add insterests to the query
-            if (giftRequest.getInterests() != null && !giftRequest.getInterests().isEmpty()) {
-            queryJoiner.add(String.join(" ", giftRequest.getInterests()));
+            if ("christmas".equalsIgnoreCase(giftRequest.getEvent())) {
+                queryJoiner.add("natale");
             }
-    
+             
+           /* if (giftRequest.getInterests().contains("music")) {
+                queryJoiner.add("music");
+            }
+            if (giftRequest.getInterests().contains("theatre")) {
+                queryJoiner.add("teatro");
+            }
+            if (giftRequest.getInterests().contains("sport")) {
+                queryJoiner.add("sport");
+            }
+            if (giftRequest.getAge() < 16){
+                queryJoiner.add("per-tutta-la-famiglia");
+            }
+            if (giftRequest.getInterests().contains("travel")){
+                queryJoiner.add("viaggi-evento");
+            }
+            if (giftRequest.getInterests().contains("videogames")){
+                queryJoiner.add("sport/esport");
+            }
+            if (giftRequest.getInterests().contains("literature")){
+                queryJoiner.add("letture");
+            }
+            if (giftRequest.getInterests().contains("cinema")){
+                queryJoiner.add("festival/festival-del-cinema");
+            } */
+
             // add other informations
             //queryJoiner.add(giftRequest.getProfession());
             //queryJoiner.add(giftRequest.getEvent());
             //queryJoiner.add(String.valueOf(giftRequest.getAge()));
-
+            
             return queryJoiner.toString();
         }   
 
@@ -110,18 +135,52 @@ public class TicketMasterService {
                 
                 // build the URL for ticketmaster API
                 UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl("https://app.ticketmaster.com/discovery/v2/events.json")
-                    .queryParam("keyword", query) 
-                    .queryParam("apikey", apiKey);
+                   // .queryParam("keyword", query) 
+                    .queryParam("apikey", apiKey)
+                    .queryParam("locale", "*")
+                    .queryParam("countryCode", "IT")
+                    .queryParam("size", 10);
                     
-                    if (giftRequest.getAge() < 16){
-                        uriBuilder.queryParam("classificationName", "Family");
-                    }
+                  
+                    
+                    //if (giftRequest.getAge() < 16){
+                     //   uriBuilder.queryParam("classificationName", "Family");
+                    //}
 
-                    if ("christmas".equalsIgnoreCase(giftRequest.getEvent())) {
-                        uriBuilder.queryParam("classificationName", "Holiday");
+                    //if ("christmas".equalsIgnoreCase(giftRequest.getEvent())) {
+                    //    uriBuilder.queryParam("classificationName", "Holiday");
+                    //    logger.info("Aggiunti filtri per eventi natalizi.");
                         //query += " christmas";  Aggiunge la parola "Christmas" alla query di ricerca
+                    //}
+                    //tentativi 
+                     if (giftRequest.getInterests().contains("music")) {
+                       uriBuilder.queryParam("classificationName", "music");
+                    } 
+                    if (giftRequest.getInterests().contains("theatre")) {
+                       uriBuilder.queryParam("classificationName", "theatre");
+                    }
+                    if (giftRequest.getInterests().contains("sport")) {
+                        uriBuilder.queryParam("classificationName", "sport");
+                    }
+                    if (giftRequest.getInterests().contains("cinema")) {
+                        uriBuilder.queryParam("classificationName", "film");
+                        logger.info("Aggiunti filtri per eventi comici.");
+                    }
+                    if (giftRequest.getInterests().contains("literature")){
+                        uriBuilder.queryParam("classificationName", "art");
+                    }
+                    if (giftRequest.getInterests().contains("videogames")){
+                        uriBuilder.queryParam("classificationName", "sport");
+                    }
+                    if (giftRequest.getInterests().contains("travel")){
+                        uriBuilder.queryParam("classificationName", "festival");
+                    } 
+                    if ("christmas".equalsIgnoreCase(giftRequest.getEvent())) {
+                        uriBuilder.queryParam("keyword", "natale");
                     }
                     
+
+
 
                     String url = uriBuilder.toUriString();
                 
@@ -131,8 +190,23 @@ public class TicketMasterService {
                 
                 logger.info("Risposta ricevuta da TicketMaster API: {}", response);
 
-                // convertire il risultato in GiftSuggestionDTO
-                return parseTicketMasterResponse(response);
+                List<GiftSuggestionDTO> suggestions = parseTicketMasterResponse(response);
+
+                // Se non ci sono eventi in Italia, fai una nuova chiamata per cercare in Europa
+                if (suggestions.isEmpty()) {
+                    logger.info("Nessun evento trovato in Italia, cercando eventi in Europa...");
+                    // Rimuovi il parametro countryCode per cercare in Europa
+                    uriBuilder.replaceQueryParam("countryCode"); // Rimuove il parametro countryCode (Italia)
+                    //uriBuilder.queryParam("size", 10); // Imposta il limite di risultati a 10
+
+                    url = uriBuilder.toUriString();
+                    logger.info("Chiamata a TicketMaster API (Europa): {}", url);
+                    response = restTemplate.getForObject(url, String.class);
+                    suggestions = parseTicketMasterResponse(response);
+                }
+
+                // Ritorna i suggerimenti
+                return suggestions;
                 } catch(Exception e){
 
                     logger.error("errore durante la generazione delle proposte regalo", e);
