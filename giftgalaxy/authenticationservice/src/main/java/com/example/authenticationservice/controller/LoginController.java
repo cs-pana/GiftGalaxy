@@ -1,5 +1,8 @@
 package com.example.authenticationservice.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,13 +19,14 @@ import com.example.authenticationservice.webtoken.LoginForm;
 
 @RestController
 public class LoginController {
-      @Autowired
-    private AuthenticationManager authenticationManager;
     
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     @Autowired
     private JwtService jwtService;
 
-     @PostMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<String> authenticateAndGetToken(@RequestBody LoginForm loginForm) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -32,8 +36,14 @@ public class LoginController {
 
         if (authentication.isAuthenticated()) {
             // Generate JWT token
-            String token = jwtService.generateToken((UserDetails) authentication.getPrincipal());
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            //String token = jwtService.generateToken((UserDetails) authentication.getPrincipal());
+            // Prepare claims for JWT token
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("username", userDetails.getUsername());
+            claims.put("email", userDetails.getUsername());  //username is the email
 
+            String token = jwtService.generateToken(claims, userDetails.getUsername());
             // Return the token in the response body and header
             return ResponseEntity.ok()
                 .header("Authorization", "Bearer " + token)

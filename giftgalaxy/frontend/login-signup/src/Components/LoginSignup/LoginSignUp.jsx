@@ -4,6 +4,7 @@ import axiosInstance, { switchToAuthService } from '../axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { auth,provider } from './firebase';
 import { signInWithPopup } from 'firebase/auth';
+import axios from 'axios';
 
 import user_icon from '../Assets/person icon.png';
 import email_icon from '../Assets/email icon.png';
@@ -29,7 +30,7 @@ const LoginSignup = ({ onLogin }) => { // Use onLogin to pass login handler
     setError('');
     try {
       const response = await axiosInstance.post('/login', {
-        username: email, // backend expects 'username' for login
+        username: email,
         password: password
       });
 
@@ -92,31 +93,37 @@ const LoginSignup = ({ onLogin }) => { // Use onLogin to pass login handler
       const user = result.user;
       console.log('Google login successful:', user);
 
-      const userData = {
-        uid: user.uid,
-        displayName: user.displayName,
-        email: user.email,
-        photoURL: user.photoURL
-      };
+      //put the token returned by firebase into local storage
+      const idToken = await user.getIdToken();
+      if (idToken) {
+        localStorage.setItem('firebaseToken', idToken);
+      } else {
+        console.error('token not received from firebase.');
+      }
 
-      localStorage.setItem('jwtToken', user.uid);
-
-      console.log('Google Login success :', userData);
-
-      // Navigate to dashboard
+      //Send the firebase id token to authentication service to sign up/log in in exchange for a jwt token
+      const axiosFirebase = axios.create({
+        baseURL: 'http://localhost:8080',
+        headers: {
+            'Content-Type': 'application/json',
+          }
+        });   
+      const response = await axiosFirebase.post('/google-signup', { idToken });
       
-      navigate('/dashboard');
-    } else {
-      console.error('Google Login failed. No user returned.');
+      if (response.data) {
+        const jwtToken = response.data;  // The JWT token returned by the backend
+        localStorage.setItem('jwtToken', jwtToken);  // Save JWT token in localStorage
+        //console.log('JWT Token:', jwtToken);
+
+        navigate('/dashboard');
+      } else {
+        console.error('JWT token not received.');
+      }
     }
-
-
-      
-    } catch (err) {
-      console.error('Error in Google Login:', err)
-      
-    }
-  };
+  } catch (err) {
+    console.error('Error in Google Login:', err);
+  }
+};
 
   return (
     <div>

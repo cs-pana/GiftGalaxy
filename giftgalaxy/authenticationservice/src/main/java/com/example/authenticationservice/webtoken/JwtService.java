@@ -1,6 +1,6 @@
 package com.example.authenticationservice.webtoken;
 
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 import javax.crypto.SecretKey;
 import java.util.Base64;
 import java.util.Map;
-import java.util.HashMap;
+//import java.util.HashMap;
 
 
 @Service
@@ -27,10 +27,9 @@ public class JwtService {
 
     //Generate token function:
     //we will generate a token for each user after they login
-    public String generateToken(UserDetails userDetails) {
+    /*public String generateToken(UserDetails userDetails) {
         Map<String, String> claims = new HashMap<>();
-        claims.put("username", userDetails.getUsername()); //**MAYBE CHANGE SO THAT THIS HAS THE USERNAME?? */
-        return Jwts.builder()
+        claims.put("username", userDetails.getUsername());
                     .claims(claims)
             //subject of the token -> user
                     .subject(userDetails.getUsername())
@@ -42,7 +41,20 @@ public class JwtService {
                     .signWith(generateKey())
             //convert into json format
                     .compact();
+    }*/
+
+    public String generateToken(Map<String, Object> claims, String subject) {
+        return Jwts.builder()
+                   .claims(claims)                 // add custom claims
+                   .subject(subject)               // subject of the token (user email)
+                   .issuedAt(Date.from(Instant.now()))   //when token is generated -> current date and time
+                   .expiration(Date.from(Instant.now().plusMillis(VALIDITY)))  //each jwt has an expiration time
+                   .signWith(generateKey())           //sign with the secret key SECRET: we have to convert it into a Secret Key object
+                   .compact();                        // convert into JSON format
     }
+    
+
+
 
     private SecretKey generateKey() {
         byte[] decodeKey = Base64.getDecoder().decode(SECRET);

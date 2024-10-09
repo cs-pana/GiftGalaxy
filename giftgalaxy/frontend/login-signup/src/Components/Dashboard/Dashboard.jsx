@@ -20,22 +20,12 @@ const Dashboard = ({ setIsLoggedIn }) => {
   }, [navigate]); // Adding navigate as a dependency ensures it runs once on <mount>*/
   const fetchUserData = async () => {
     try {
-      const jwtToken = localStorage.getItem('jwtToken');
-      if (!jwtToken) {
-        setError('Invalid token.');
-        setLoading(false);
-        return;
-      }
 
       // Switch to profile service to fetch user data
       console.log("Switching to profile service...");
       switchToProfileService();
 
-      const userResponse = await axiosInstance.get(`/profiles/me`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`
-        }
-      });
+      const userResponse = await axiosInstance.get(`/profiles/me`, );
 
       setUserData(userResponse.data);
       setLoading(false);
@@ -105,7 +95,7 @@ const Dashboard = ({ setIsLoggedIn }) => {
       </div>
       <div className="main-container">
         <div className="intro-text">
-          <h2>Welcome to Your Dashboard</h2>
+          <h2>Welcome to Your Dashboard,  {userData.username} {userData.surname}</h2>
           <p>Here you can manage your profile, view and add important events, and manage your wishlist. Choose an option below to get started!</p>
         </div>
         <div className="main-button-container">
