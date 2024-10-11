@@ -164,11 +164,16 @@ public class EbayService {
                 categoryIds.add("175672"); // computer portatili, laptop, notebook
                 logger.info("categoria aggiunta: computer portatili..");
             }
+            if (giftRequest.getAge() >= 16  && giftRequest.getProfession().contains("student")) {
+                categoryIds.add("171485"); //tablet e e-book
+                logger.info("categoria aggiunta: tablet e ebook");
+            }
+
 
             //lavoratori - ok
-            if (giftRequest.getAge() >= 16  && giftRequest.getProfession().contains("worker")) {
-                categoryIds.add("135221"); // ufficio e cancelleria
-                logger.info("cat aggiunta: Ufficio e cancelleria");
+            if (giftRequest.getAge() >= 16 && giftRequest.getAge() < 66 && giftRequest.getProfession().contains("worker")) {
+                categoryIds.add("302"); // cancelleria
+                logger.info("cat aggiunta: cancelleria");
             }
 
             // Bambini tra 0 e 1 anni - ok
@@ -209,17 +214,30 @@ public class EbayService {
 
             // Persona con più di 16 anni, amante del teatro - ok
             if (giftRequest.getAge() > 16 && giftRequest.getInterests().contains("theatre")) {
-                categoryIds.add("1305"); // Categoria biglietti eventi d'arte teatro e cultura
+                categoryIds.add("34821"); // Categoria biglietti eventi d'arte teatro e cultura
                 logger.info("Categoria aggiunta: Biglietti eventi d'arte teatro e cultura");
             }
 
 
             // Persona con più di 12 anni, amante dei videogames - ok 
             if (giftRequest.getAge() > 12 && giftRequest.getInterests().contains("videogames")) {
-                categoryIds.add("1249"); // Categoria videogames e console
+                categoryIds.add("139971"); // Consoles
                 logger.info("Categoria aggiunta: Videogames e Console");
             }
-
+            if (giftRequest.getAge() > 12 && giftRequest.getInterests().contains("videogames")) {
+                categoryIds.add("139973"); // giochi
+                logger.info("Categoria aggiunta: giochi");
+            }
+            if (giftRequest.getAge() > 12 && giftRequest.getInterests().contains("videogames")) {
+                categoryIds.add("246"); //action figures
+                logger.info("Categoria aggiunta: action figures");
+            }
+            if (giftRequest.getAge() > 12 && giftRequest.getInterests().contains("videogames")) {
+                categoryIds.add("33346"); //manga
+                logger.info("Categoria aggiunta: manga");
+            }
+            
+            
             // Persona con più di 16 anni, donna amante del fashion - ok 
             if (giftRequest.getAge() > 16 && ("female".equalsIgnoreCase(giftRequest.getSex()) && giftRequest.getInterests().contains("fashion"))) {
                 categoryIds.add("31786"); 
@@ -255,11 +273,23 @@ public class EbayService {
                 categoryIds.add("11233"); // Musica cd e vinili
                 logger.info("Categoria aggiunta: Musica cd e vinili");
             }
+            if (giftRequest.getAge() > 12 && giftRequest.getInterests().contains("music")) {
+                categoryIds.add("34814"); // concerti e festival
+                logger.info("Categoria aggiunta: biglietti eventi");
+            }
+            if (giftRequest.getAge() > 12 && giftRequest.getInterests().contains("music")) {
+                categoryIds.add("80077"); //cuffiette musica
+                logger.info("Categoria aggiunta: cuffiette");
+            }
 
             // Persona con più di 12 anni, amante dello sport - ok
             if (giftRequest.getAge() > 12 && giftRequest.getInterests().contains("sport")) {
-                categoryIds.add("888"); // Sport e viaggi
+                categoryIds.add("15273"); // palestra,fitnell,corsa,yoga
                 logger.info("Categoria aggiunta: Sport e viaggi");
+            }
+            if (giftRequest.getAge() > 12 && giftRequest.getInterests().contains("sport")) {
+                categoryIds.add("34856"); // biglietti eventi sportivi
+                logger.info("Categoria aggiunta: biglietti eventi sportivi");
             }
 
             // Persona con più di 12 anni, amante del viaggio e della natura
@@ -288,7 +318,7 @@ public class EbayService {
                 logger.info("Categoria aggiunta: biglietti eventi");
             }
 
-            //non va molto 
+            
             if (giftRequest.getAge() > 16 && "male".equalsIgnoreCase(giftRequest.getSex()) &&("anniversary".equalsIgnoreCase(giftRequest.getEvent()))) {
                 categoryIds.add("10290"); // bracciali uomo
                 logger.info("Categoria aggiunta: bracciali uomo");
@@ -314,8 +344,8 @@ public class EbayService {
             }
             
             if (giftRequest.getAge() > 16  &&("christmas".equalsIgnoreCase(giftRequest.getEvent()))) {
-                categoryIds.add("156890"); // cuscini natalizi
-                logger.info("Categoria aggiunta: palle natale");
+                categoryIds.add("156890"); 
+                logger.info("Categoria aggiunta: ");
             }
             
             if (giftRequest.getAge() > 16  &&("christmas".equalsIgnoreCase(giftRequest.getEvent()))) {
@@ -358,16 +388,30 @@ public class EbayService {
             if("corporate-event".equalsIgnoreCase(giftRequest.getEvent())){
                 categoryIds.add("23895"); //mouse pad
             }
+            if("corporate-event".equalsIgnoreCase(giftRequest.getEvent())){
+                categoryIds.add("80077"); //cuffiette
+            }
 
-            if("employee".equalsIgnoreCase(giftRequest.getProfession())){
+            if("employee".equalsIgnoreCase(giftRequest.getRelationship())){
                 categoryIds.add("23895"); //mouse pad
             }
-            if("employee".equalsIgnoreCase(giftRequest.getProfession())){
-                categoryIds.add("23160"); //mouse pad
+            if("employee".equalsIgnoreCase(giftRequest.getRelationship())){
+                categoryIds.add("23160"); //mouse
             }
-            if("employee".equalsIgnoreCase(giftRequest.getProfession())){
-                categoryIds.add("80183"); //mouse pad
+            if("employee".equalsIgnoreCase(giftRequest.getRelationship())){
+                categoryIds.add("80183"); //cuffie
             }
+            if("acquaitance".equalsIgnoreCase(giftRequest.getRelationship())  && giftRequest.getAge() > 16){
+                categoryIds.add("80077"); //cuffiette per smartphone
+            }
+            if("acquaitance".equalsIgnoreCase(giftRequest.getRelationship()) && "male".equalsIgnoreCase(giftRequest.getSex()) && giftRequest.getAge() > 16){
+                categoryIds.add("4250"); //accessori uomo
+            }
+            if("acquaitance".equalsIgnoreCase(giftRequest.getRelationship()) && "female".equalsIgnoreCase(giftRequest.getSex()) && giftRequest.getAge() > 16){
+                categoryIds.add("11838"); //cura del corpo
+            }
+
+
 
 
         
@@ -385,7 +429,7 @@ public class EbayService {
                 if (categoryId.equals("175672")) { 
                         limit = 5;}
                 if (categoryId.equals("135221")) { 
-                        limit = 5;}
+                        limit = 4;}
                 if (categoryId.equals("19070")) { 
                         limit = 5;}
                 if (categoryId.equals("19068")) { 
@@ -456,6 +500,33 @@ public class EbayService {
                                         limit = 5;}  
                 if (categoryId.equals("23895")) { 
                                         limit = 5;} 
+                if(categoryId.equals("10290")){
+                    limit=5;
+                }
+                if(categoryId.equals("15273")){
+                    limit =5;
+                }
+                if(categoryId.equals("139971")){
+                    limit=5;
+                }
+                if(categoryId.equals("139973")){
+                    limit = 5;
+                }
+                if(categoryId.equals("302")){
+                    limit = 5;
+                }
+                if(categoryId.equals("171485")){
+                    limit=5;
+                }
+                if(categoryId.equals("34814")){
+                    limit=5;
+                }
+                if(categoryId.equals("34821")){limit=5;}
+                if(categoryId.equals("34856")){limit=5;}
+                if(categoryId.equals("80077")){limit=5;}
+                if(categoryId.equals("139973")){limit=5;}
+                if(categoryId.equals("246")){limit=5;}
+                if(categoryId.equals("33346")){limit=5;}
                 // Creazione dell'URL con UriComponentsBuilder per ogni categoria
                 UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl("https://api.ebay.com/buy/browse/v1/item_summary/search")
                         .queryParam("limit", limit) // Limite di risultati

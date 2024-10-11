@@ -182,7 +182,6 @@ const GiftSuggestion = () => {
           <option value="anniversary">Anniversary</option>
           <option value="christmas">Christmas</option>
           <option value="corporate-event">Corporate Event</option>
-          <option value="wedding">Wedding</option>
           <option value="special-occasion">Other Special Occasion</option>
           
         </select>
