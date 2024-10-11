@@ -1,0 +1,120 @@
+.user-gift-suggestion-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: -30px;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    width: 275px;
+    height: 275px;
+}
+
+.form-container {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 50px;
+    width: 600px;
+    margin-top: -80px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    color: #0fa9f1;
+    font-family: "Noto Sans KR", sans-serif;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: 500;
+    margin-top: 5px;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 15px;
+    width: 100%;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 2px solid #36022a;
+    font-family: "Noto Sans KR", sans-serif;
+    box-sizing: border-box;
+}
+
+.success-message {
+    color: #28a745;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.button-group-usergift {
+    position: relative;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.submit-button {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 40px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    background-color: #d1c3e1;
+    color: #36022a;
+    border: 3px solid #36022a;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+.submit-button:hover {
+    background-color: #bb62e1;
+}
+
+.back-button-usergift {
+    position: absolute;
+    right: 0;
+    width: 95px;
+    height: 40px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    background-color: #d1c3e1;
+    color: #36022a;
+    border: 3px solid #36022a;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button-usergift:hover {
+    background-color: #bb62e1;
+}

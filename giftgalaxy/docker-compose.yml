@@ -70,8 +70,6 @@ services:
     networks:
       - app-network
     depends_on:
-    #  auth-service:
-    #    condition: service_started  # Ensure auth-service is up
       rabbitmq:
         condition: service_started
       mysql:
@@ -95,8 +93,6 @@ services:
     networks:
       - app-network
     depends_on:
-    #  profile-service:
-    #    condition: service_started  # Ensure profile-service is up first
       mysql:
         condition: service_healthy  # Wait for MySQL health check to pass
   
@@ -116,8 +112,6 @@ services:
     networks:
       - app-network
     depends_on:
-      notification-service:
-        condition: service_started  # Ensure notification-service is up first
       rabbitmq:
         condition: service_started
       mysql:
@@ -139,8 +133,6 @@ services:
     networks:
       - app-network
     depends_on:
-    #  profile-service:
-    #    condition: service_started
       mysql:
         condition: service_healthy
               

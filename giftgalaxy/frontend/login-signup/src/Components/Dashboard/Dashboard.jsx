@@ -12,20 +12,25 @@ const Dashboard = ({ setIsLoggedIn }) => {
 
   // UseEffect to check authentication on component mount
   useEffect(() => {
-    /*const token = localStorage.getItem('jwtToken'); // Get token from localStorage
-    if (!token) {
-      // If no token is found, redirect to the login page
-      navigate('/');
-    }
-  }, [navigate]); // Adding navigate as a dependency ensures it runs once on <mount>*/
   const fetchUserData = async () => {
     try {
+
+      const jwtToken = localStorage.getItem('jwtToken');
+      if (!jwtToken) {
+        setError('Invalid token.');
+        setLoading(false);
+        return;
+      }
 
       // Switch to profile service to fetch user data
       console.log("Switching to profile service...");
       switchToProfileService();
 
-      const userResponse = await axiosInstance.get(`/profiles/me`, );
+      const userResponse = await axiosInstance.get(`/profiles/me`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`
+        }
+      });
 
       setUserData(userResponse.data);
       setLoading(false);

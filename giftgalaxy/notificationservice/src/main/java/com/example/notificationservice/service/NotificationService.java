@@ -68,7 +68,7 @@ public class NotificationService {
         }
     }
 
-    @Scheduled(cron = "0 0/2 * * * *") //scheduled to run every 2 minutes (for testing - for production, maybe every 6 hours???)
+    @Scheduled(cron = "0 0/10 * * * *") //scheduled to run every 2 minutes (for testing - for production, maybe every 6 hours???)
     public void sendNotifications() {
         LocalDateTime now = LocalDateTime.now();
         List<Notification> notifications = notificationRepository.findAll();

@@ -155,7 +155,11 @@ const GiftSuggestionsResult = () => {
               return (
                 <li key={index} className="suggestion-item">
                   <p><strong>{suggestion.name}</strong></p>
-                  <p>Available on: <a href={suggestion.link} target="_blank" rel="noopener noreferrer">{suggestion.source}</a></p>
+                  {suggestion.link ? (
+                      <p>Available on: <a href={suggestion.link} target="_blank" rel="noopener noreferrer">{suggestion.source}</a></p>
+                    ) : (
+                      <p>Available on: {suggestion.source}</p>
+                    )}
                   {addedItems.includes(unique) ? (
                     <button className="added-button" disabled>
                       Added to Wishlist

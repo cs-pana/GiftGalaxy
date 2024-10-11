@@ -138,3 +138,36 @@ input, select {
 .search-button:hover {
     background-color: #bb62e1;
 }
+
+.instruction {
+    margin-bottom: 20px;
+    font-family: "Noto Sans KR", sans-serif;
+    color: #0fa9f1;
+    text-align: center;
+}
+
+.suggest-gift-button {
+    width: 120px;
+    height: 40px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    background-color: #0fa9f1; 
+    color: #fff; 
+    border: 3px solid #004d71; 
+    cursor: pointer;
+    margin-left: 10px; 
+    transition: background-color 0.3s ease;
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+.suggest-gift-button:hover {
+    background-color: #2e8dac;
+}
+
+.error-msg {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+}

@@ -113,6 +113,10 @@ const GiftSuggestion = () => {
       });*/
   };
 
+  const handleSuggestGiftClick = () => {
+    navigate('/user-gift-suggestion'); // Navigate to UserGiftSuggestion component
+  };
+
   
 
   return (
@@ -122,6 +126,12 @@ const GiftSuggestion = () => {
       </div>
       <div className="form-container">
         <h2 className="title">Gift Suggestion</h2>
+        <p className="instruction">
+          Fill out the form to request gift suggestions or 
+          <button className="suggest-gift-button" onClick={handleSuggestGiftClick}>
+            Suggest a Gift!
+          </button>
+        </p>
 
         <label>Name of the recipient</label>
         <input className="cont"
@@ -187,14 +197,14 @@ const GiftSuggestion = () => {
         </select>
 
         <div className="button-group">
+        {error && <p className="error-msg">{error}</p>}
+
             <button className="search-button" onClick={handleSubmit} disabled={loading}>
               {loading ? 'Searching...' : 'Search'}</button>
              <button className="back-button" onClick={handleBackClick}>
                   Back to Dashboard
-              </button>
-        </div>
-        {error && <p className="error-message">{error}</p>}
-        
+            </button>
+        </div>        
       </div>
     </div>
   );
