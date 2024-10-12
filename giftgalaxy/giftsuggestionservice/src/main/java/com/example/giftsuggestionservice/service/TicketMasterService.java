@@ -148,7 +148,7 @@ public class TicketMasterService {
                            interests.add("music"); // Default category
                        } 
 
-            
+                
                     // Esegui una query per ciascun interesse
                     for (String interest : interests) {
                         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl("https://app.ticketmaster.com/discovery/v2/events.json")
@@ -162,27 +162,41 @@ public class TicketMasterService {
                         // Aggiungi parametri di interesse
                         switch (interest.toLowerCase()) {
                             case "music":
+                            if(giftRequest.getAge() >= 14){
                                 uriBuilder.queryParam("classificationName", "music");
                                 break;
+                            }
                             case "theatre":
+                            if(giftRequest.getAge() >= 14){
                                 uriBuilder.queryParam("classificationName", "theatre");
                                 break;
+                            }
                             case "sport":
+                            if(giftRequest.getAge() >= 14){
                                 uriBuilder.queryParam("classificationName", "sport");
                                 break;
+                            }
                             case "cinema":
+                            if(giftRequest.getAge() >= 14){
                                 uriBuilder.queryParam("classificationName", "film");
                                 logger.info("Aggiunti filtri per eventi di cinema.");
                                 break;
+                            }
                             case "literature":
+                            if(giftRequest.getAge() >= 14){
                                 uriBuilder.queryParam("classificationName", "art");
                                 break;
+                            }
                             case "videogames":
+                            if(giftRequest.getAge() >= 14){
                                 uriBuilder.queryParam("classificationName", "sport");
                                 break;
+                            }
                             case "travel":
+                            if(giftRequest.getAge() >= 14){
                                 uriBuilder.queryParam("classificationName", "festival");
                                 break;
+                            }
                             case "family":
                                 uriBuilder.queryParam("classificationName", "family");
                                 logger.info("Aggiunti filtri per eventi 'family'.");

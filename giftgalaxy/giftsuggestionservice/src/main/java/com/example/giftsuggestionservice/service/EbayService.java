@@ -182,10 +182,15 @@ public class EbayService {
                 logger.info("Categoria aggiunta: Giochi per neonati");
             }
 
-            // Bambini tra 2 e 4 anni - ok 
-            if (giftRequest.getAge() <= 4 && giftRequest.getAge() >= 2) {
+            // Bambini tra 1 e 2 anni - ok 
+            if (giftRequest.getAge() <= 2 && giftRequest.getAge() >= 1) {
                 categoryIds.add("19068"); // Categoria giochi per l'infanzia
                 logger.info("Categoria aggiunta: Giochi per l'infanzia");
+            }
+            // Bambini tra 3 e 7 anni - ok 
+            if (giftRequest.getAge() <= 7 && giftRequest.getAge() >= 3) {
+                categoryIds.add("230"); // Categoria giochi per l'infanzia
+                logger.info("Categoria aggiunta: peluches");
             }
 
             // Bambini tra 7 e 16 anni - libri - ok
@@ -240,16 +245,20 @@ public class EbayService {
             
             // Persona con più di 16 anni, donna amante del fashion - ok 
             if (giftRequest.getAge() > 16 && ("female".equalsIgnoreCase(giftRequest.getSex()) && giftRequest.getInterests().contains("fashion"))) {
-                categoryIds.add("31786"); 
-                logger.info("categoria aggiunta: prodotti makeup");
+                categoryIds.add("11848"); 
+                logger.info("categoria aggiunta: profumi da donna");
             }
             if (giftRequest.getAge() > 16 && ("female".equalsIgnoreCase(giftRequest.getSex()) && giftRequest.getInterests().contains("fashion"))) {
-                categoryIds.add("10968"); 
-                logger.info("bigiotteria");
+                categoryIds.add("50692"); 
+                logger.info("parure bigiotteria");
             }
             if (giftRequest.getAge() > 16 && ("female".equalsIgnoreCase(giftRequest.getSex()) && giftRequest.getInterests().contains("fashion"))) {
                 categoryIds.add("260010"); 
                 logger.info("abbigliamento  e accessori donna");
+            }
+            if (giftRequest.getAge() > 16 && ("female".equalsIgnoreCase(giftRequest.getSex()) && giftRequest.getInterests().contains("fashion"))) {
+                categoryIds.add("177659"); 
+                logger.info("piastre e arricciacapelli");
             }
 
             // Persona con più di 16 anni, uomo amante del fashion - ok 
@@ -527,6 +536,12 @@ public class EbayService {
                 if(categoryId.equals("139973")){limit=5;}
                 if(categoryId.equals("246")){limit=5;}
                 if(categoryId.equals("33346")){limit=5;}
+                if(categoryId.equals("1305")){limit=8;}
+                if(categoryId.equals("50692")){limit=5;}
+                if(categoryId.equals("11848")){limit=5;}
+                if(categoryId.equals("177659")){limit=5;}
+                if(categoryId.equals("230")){limit=5;}
+                
                 // Creazione dell'URL con UriComponentsBuilder per ogni categoria
                 UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl("https://api.ebay.com/buy/browse/v1/item_summary/search")
                         .queryParam("limit", limit) // Limite di risultati
