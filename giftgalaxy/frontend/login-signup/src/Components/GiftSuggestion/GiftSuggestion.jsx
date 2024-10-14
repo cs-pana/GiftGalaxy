@@ -94,23 +94,7 @@ const GiftSuggestion = () => {
       setLoading(false);
     }
 
-    /*// Logic for searching gifts based on input
-    console.log({
-      recipientName,
-      age,
-      sex,
-      profession,
-      relationship,
-      interests,
-      event,
-    });
-    navigate('/gift-suggestions', {
-        state: {
-          //suggestions: response.data.suggestions,
-          recipientName,
-          event,
-        },
-      });*/
+   
   };
 
   const handleSuggestGiftClick = () => {

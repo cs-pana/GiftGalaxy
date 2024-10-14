@@ -60,17 +60,7 @@ public class NotificationController {
     }
 
 
-    /*@PutMapping("/update")
-    public ResponseEntity<String> updateNotification(@RequestBody NotificationDto notificationDto) {
-        notificationService.updateNotification(
-            notificationDto.getEventId(),
-            notificationDto.getUserId(),
-            notificationDto.getEmail(),
-            notificationDto.getMessage(),
-            notificationDto.getNotificationDate()
-        );
-        return ResponseEntity.ok("Notification updated successfully");
-    }*/
+    
 
     // delete notification of event with eventId: called when that event is deleted or notify is set to false
     @DeleteMapping("/delete/{eventId}")

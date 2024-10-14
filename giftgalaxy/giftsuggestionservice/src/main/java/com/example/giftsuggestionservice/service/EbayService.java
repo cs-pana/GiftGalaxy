@@ -12,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.slf4j.Logger;
-//import java.util.StringJoiner;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
@@ -85,39 +84,7 @@ public class EbayService {
 
 
 
-/*private String buildQueryFromGiftRequest(GiftRequestDTO giftRequest) {
 
-    StringJoiner queryJoiner = new StringJoiner(" ");
-
-     //Aggiungi gli interessi alla query
-    // if (giftRequest.getInterests() != null && !giftRequest.getInterests().isEmpty()) {
-      // queryJoiner.add(String.join(" ", giftRequest.getInterests()));
-   // }
-     // Only add "anniversary" if it's applicable
-     if (giftRequest.getAge() > 20 && "Anniversary".equalsIgnoreCase(giftRequest.getEvent())) {
-        queryJoiner.add("anniversary");
-    }
-
-    // Ensure there's a fallback keyword in case nothing gets added
-    if (queryJoiner.length() == 0) {
-        queryJoiner.add("gift"); // Add a default fallback term like "gift"
-    }
-
-    // Aggiungi altre informazioni (se necessario)
-    //if (giftRequest.getEvent() != null) {
-      //  queryJoiner.add(giftRequest.getEvent());
-    //}
-
-    //if (giftRequest.getProfession() != null) {
-     //   queryJoiner.add(giftRequest.getProfession());
-    //}
-
-    //if (giftRequest.getAge() > 0) {
-     //   queryJoiner.add(String.valueOf(giftRequest.getAge()));
-    //}
-
-    return queryJoiner.toString();
-} */
 
 
     public List<GiftSuggestionDTO> getGiftSuggestions(GiftRequestDTO giftRequest) {
@@ -547,40 +514,7 @@ public class EbayService {
                         .queryParam("limit", limit) // Limite di risultati
                         .queryParam("category_ids", categoryId); // Aggiungi la categoria corrente
 
-                // Aggiungi query aggiuntive se necessarie
-                /*//bambini travel - ok 
-                if (giftRequest.getAge() < 12 && giftRequest.getAge() > 6 && giftRequest.getInterests().contains("travel") && categoryId.equals("260988")) {
-                    uriBuilder.queryParam("q", "Zaini-e-borse-da-bambini");
-                } */
-                //bambini 8-11
-                //if (giftRequest.getAge() < 11 && giftRequest.getAge() >= 8 && categoryId.equals("2550")) {
-                 //   uriBuilder.queryParam("q", "Board-8-11-Years-Board-Traditional-Games");
-                //}
-
-                /*//bambini 0-1 anno - ok
-                if (giftRequest.getAge() <= 1 && giftRequest.getAge() >= 0 && categoryId.equals("19070")) {
-                    uriBuilder.queryParam("q", "Giocattoli-da-0-mesi");
-                }
-                // Bambini tra 2 e 4 anni -ok
-                if (giftRequest.getAge() <= 4 && giftRequest.getAge() >= 2 && categoryId.equals("19068")) {
-                    uriBuilder.queryParam("q", "Giocattoli-per-linfanzia");
-                } 
-                //studenti 6-18 - ok
-                if (giftRequest.getAge() >= 6 && giftRequest.getAge() <= 18 && giftRequest.getProfession().contains("student")&& categoryId.equals("27668")) {
-                    uriBuilder.queryParam("q", "Articoli-per-la-scuola");
-                } 
-                //bambini 7-16 letteratura - ok
-                if (giftRequest.getAge() <= 16 && giftRequest.getAge() >= 7 && giftRequest.getInterests().contains("literature") && categoryId.equals("182882")) {
-                    uriBuilder.queryParam("q", "Narrativa-per-bambini-e-ragazzi");
-                }
-                //bambina 2-16 anni moda - ok
-                if (giftRequest.getAge() < 16 && giftRequest.getAge() >=2 && ("female".equalsIgnoreCase(giftRequest.getSex()) || giftRequest.getInterests().contains("fashion")) && categoryId.equals("11462")) {
-                    uriBuilder.queryParam("q", "Abbigliamento-da-bambina-dai-2-ai-16-anni");
-                }
-                //bambino 2-16 anni moda - ok 
-                if (giftRequest.getAge() < 16 && giftRequest.getAge() >=2 && ("male".equalsIgnoreCase(giftRequest.getSex()) || giftRequest.getInterests().contains("fashion")) && categoryId.equals("11452")) {
-                    uriBuilder.queryParam("q", "Abbigliamento-da-bambino-dai-2-ai-16-anni");
-                }*/
+                
 
 
                 String url = uriBuilder.toUriString();

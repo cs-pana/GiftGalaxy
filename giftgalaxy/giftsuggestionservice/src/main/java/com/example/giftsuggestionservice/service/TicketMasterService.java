@@ -60,46 +60,7 @@ public class TicketMasterService {
         }
     
 
-     /*    private String buildQueryFromGiftRequest(GiftRequestDTO giftRequest) {
-            StringJoiner queryJoiner = new StringJoiner(" ");
     
-            // Add insterests to the query
-            if ("christmas".equalsIgnoreCase(giftRequest.getEvent())) {
-                queryJoiner.add("natale");
-            }
-             
-           /* if (giftRequest.getInterests().contains("music")) {
-                queryJoiner.add("music");
-            }
-            if (giftRequest.getInterests().contains("theatre")) {
-                queryJoiner.add("teatro");
-            }
-            if (giftRequest.getInterests().contains("sport")) {
-                queryJoiner.add("sport");
-            }
-            if (giftRequest.getAge() < 16){
-                queryJoiner.add("per-tutta-la-famiglia");
-            }
-            if (giftRequest.getInterests().contains("travel")){
-                queryJoiner.add("viaggi-evento");
-            }
-            if (giftRequest.getInterests().contains("videogames")){
-                queryJoiner.add("sport/esport");
-            }
-            if (giftRequest.getInterests().contains("literature")){
-                queryJoiner.add("letture");
-            }
-            if (giftRequest.getInterests().contains("cinema")){
-                queryJoiner.add("festival/festival-del-cinema");
-            } 
-
-            // add other informations
-            //queryJoiner.add(giftRequest.getProfession());
-            //queryJoiner.add(giftRequest.getEvent());
-            //queryJoiner.add(String.valueOf(giftRequest.getAge()));
-            
-            return queryJoiner.toString();
-        }   */
 
         //convert query response in a GiftSuggestionDTO list
         private List<GiftSuggestionDTO> parseTicketMasterResponse(String response) {

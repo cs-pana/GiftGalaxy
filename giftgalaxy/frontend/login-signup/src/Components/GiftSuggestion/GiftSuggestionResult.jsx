@@ -20,24 +20,6 @@ const GiftSuggestionsResult = () => {
 
   console.log("Suggestions received:", suggestions);
 
-  // Suggerimenti fittizi
- // const suggestions = [
-   // { name: 'Amazon Gift Card', link: 'https://www.amazon.com', source: 'Amazon' },
-    //{ name: 'Concert Ticket', link: 'https://www.ticketone.it', source: 'TicketOne' },
-    //{ name: 'Fitbit Watch', link: 'https://www.amazon.com', source: 'Amazon' },
-    //{ name: 'Bluetooth Headphones', link: 'https://www.amazon.com', source: 'Amazon' },
-  //];
-
-  // Aggiunge un regalo alla wishlist
-  /*const handleAddToWishlist = (item) => {
-    // Controlla se l'elemento è già nella wishlist
-    if (!wishlist.some((wishItem) => wishItem.id === item.id)) {
-      setWishlist((prevWishlist) => [...prevWishlist, item]);
-      alert(`${item.name} has been added to your wishlist!`);
-    }else {
-        alert(`${item.name} is already in your wishlist.`);
-    }
-  };*/
 
 
   useEffect(() => {

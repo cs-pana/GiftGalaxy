@@ -26,9 +26,9 @@
     display: flex;
     flex-direction: row; /* Imposta i bottoni in orizzontale */
     justify-content: center; /* Centra i bottoni orizzontalmente */
-    gap: 10px; /* Aggiungi uno spazio tra i bottoni */
+    gap: 10px; /* Aggiungere uno spazio tra i bottoni */
     width: 100%; /* Adatta il contenitore alla larghezza del form */
-    margin-top: 20px; /* Aggiungi un po' di spazio sopra i bottoni */
+    margin-top: 20px; /* Aggiungere un po' di spazio sopra i bottoni */
 }
 .delete-button {
     width: 140px;

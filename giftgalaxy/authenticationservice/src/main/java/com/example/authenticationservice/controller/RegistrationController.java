@@ -55,9 +55,7 @@ public class RegistrationController {
             return new ResponseEntity<>("This email already exists.", HttpStatus.BAD_REQUEST);
         }
 
-        /* if (!isValidPassword(user.getPassword())) {
-            return new ResponseEntity<>("Invalid password format", HttpStatus.BAD_REQUEST);
-        }*/
+       
 
         if (!isValidEmail(user.getEmail())) {
             return new ResponseEntity<>("Invalid email format.", HttpStatus.BAD_REQUEST);
@@ -147,12 +145,7 @@ public class RegistrationController {
         //call profile service (running on another port)
         restTemplate.postForEntity("http://profile-service:8081/profiles/create", request, UserProfileDto.class);
     }
-    /* // Validate password 
-     private boolean isValidPassword(String password) {
-        //At least 6 characters, one uppercase, one lowercase, one number
-        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{6,}$";
-        return password.matches(passwordPattern);
-     }*/
+    
     // Validate Email format
     private boolean isValidEmail(String email) {
         String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";

@@ -107,20 +107,7 @@ public class NotificationService {
     }
 
 
-    // Schedule to delete old notifications
-    /*@Scheduled(cron = "0 0 0 * * *") // Run every day at midnight
-    @Transactional
-    public void deleteOldNotifications() {
-        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
-        List<Notification> oldNotifications = notificationRepository.findByNotificationDateBefore(yesterday); //or findByNotifiedTrueAndNotificationDateBefore ????
 
-        if (!oldNotifications.isEmpty()) {
-            System.out.println("Deleting old notifications...");
-            notificationRepository.deleteAll(oldNotifications);
-        } else {
-            System.out.println("No old notifications to delete.");
-        }
-    }*/
 }
 
 

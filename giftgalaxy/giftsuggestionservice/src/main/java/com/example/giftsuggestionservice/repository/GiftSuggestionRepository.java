@@ -12,12 +12,7 @@ import com.example.giftsuggestionservice.model.UserGiftSuggestion;
 
 @Repository
 public interface GiftSuggestionRepository extends JpaRepository<UserGiftSuggestion, Long> {
-   /* // find by id method
-    Optional<Suggestion> findById(Long id);
-
-    // find by fav, find by name of gift
-    List<Suggestion> findByFavourite(Boolean favourite);
-    List<Suggestion> findByNameOfGift(String name);*/
+   
 
     //fetch suggestions based on the request parameters
     List<UserGiftSuggestion> findByAgeRangeAndSexAndInterestAndProfessionAndRelationshipAndEventType(

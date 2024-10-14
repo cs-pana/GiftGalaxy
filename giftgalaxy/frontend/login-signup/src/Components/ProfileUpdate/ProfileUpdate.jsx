@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance, { switchToProfileService, switchToNotifService } from '../axiosInstance'; 
 import './ProfileUpdate.css'; 
 import logo from '../Assets/logo3.png'
-//import profilePic from '../Assets/profile-image.jpg';
+
 
 const ProfileUpdate = () => {
   const[userData, setUserData] = useState(null);
@@ -86,11 +86,7 @@ if (error) {
 
         e.preventDefault();
         if (newEventName && newEventDate) {
-          /*const newEvent = {
-            id: events.length + 1, // create a fake id 
-            name: newEventName,
-            date: newEventDate
-          };*/
+          
           const token = localStorage.getItem('jwtToken');
           try {
             const newEvent = {

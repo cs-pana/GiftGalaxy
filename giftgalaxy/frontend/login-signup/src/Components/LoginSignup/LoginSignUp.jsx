@@ -188,11 +188,7 @@ const LoginSignup = ({ onLogin }) => { // Use onLogin to pass login handler
             />
           </div>
 
-          {isLogin && (
-            <div className="forgot-password">
-              <span>Forgot your password?</span>
-            </div>
-          )}
+          
 
           <div className="submit-container">
             <button className="submit" type="submit">

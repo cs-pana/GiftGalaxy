@@ -20,9 +20,9 @@ public class ProfileUpdateListener {
         System.out.println("Received profile update: " + userProfileDto);
         
         System.out.println("UserId: " + userProfileDto.getUserId());
-        //System.out.println("Email: " + userProfileDto.getEmail());
+       
 
-        //Optional<User> userOptional = userRepository.findByEmail(userProfileDto.getEmail());
+       
         Optional<User> userOptional = userRepository.findById(userProfileDto.getUserId());
 
         if (userOptional.isPresent()) {
@@ -40,9 +40,6 @@ public class ProfileUpdateListener {
             System.out.println("User not found with ID: " + userProfileDto.getUserId());
         }
 
-        // Aggiorna il database con le nuove informazioni
-        // Esempio:
-        // userRepository.updateUser(userProfileDto.getUserId(), userProfileDto.getUsername(),
-        // userProfileDto.getEmail(), userProfileDto.getSurname());
+        
     }
 }

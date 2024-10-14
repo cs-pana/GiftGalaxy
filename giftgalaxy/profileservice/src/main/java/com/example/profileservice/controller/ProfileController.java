@@ -106,14 +106,7 @@ public class ProfileController {
         deleteNotification(eventId, request);
         return ResponseEntity.noContent().build();
     }
-/*
-    @PutMapping("/me")
-    public ResponseEntity<UserProfile> updateProfile(@RequestBody UserProfileDto userProfileDto) {
-     String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-     UserProfile updatedProfile = userProfileService.updateUserProfileByEmail(email, userProfileDto);
-     return ResponseEntity.ok(updatedProfile);
-}
-*/
+
     @PutMapping("/update-profile")
     public ResponseEntity<UserProfile> updateProfile(@RequestBody UserProfileDto userProfileDto) {
         String email = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -152,31 +145,7 @@ public class ProfileController {
         }
     }
     
-    /*private void updateNotification(Event event, HttpServletRequest request) {
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
     
-            String token = request.getHeader("Authorization");
-            if (token != null && !token.isEmpty()) {
-                headers.set("Authorization", token);
-            }
-    
-            NotificationDto notificationRequest = new NotificationDto(
-                event.getId(),
-                event.getUserProfile().getId(),
-                event.getUserProfile().getEmail(),
-                "You have an upcoming event: " + event.getName(),
-                event.getEventDate().atTime(0, 0)
-            );
-    
-            HttpEntity<NotificationDto> requestNotif = new HttpEntity<>(notificationRequest, headers);
-            restTemplate.put(notificationUrl + "/update", requestNotif, Void.class);
-    
-        } catch (Exception e) {
-            System.out.println("Failed to update notification: " + e.getMessage());
-        }
-    }*/
     
 
     private void deleteNotification(Long eventId, HttpServletRequest request) {

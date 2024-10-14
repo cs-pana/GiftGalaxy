@@ -26,7 +26,6 @@ public class User {
     @NotBlank(message = "Mandatory")
     @Column(unique = true)
     @Email(message = "Invalid email format")
-    //@Id (to use as primary key, composite with id)
     private String email;
 
     @NotBlank(message = "Mandatory")

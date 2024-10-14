@@ -7,13 +7,13 @@ import logo from '../Assets/logo3.png'
 
 const ProfileInfoUpd = () => {
     const [userData, setUserData] = useState({
-       // profilePic: profilePic, // existant image (placeholder)
+     
         username: '',
         surname: '',
         email: '',
     });
 
-    //const [newProfilePic, setNewProfilePic] = useState(null);
+    
     const [newUsername, setNewUsername] = useState('');
     const [newSurname, setNewSurname] = useState('');
     const [newEmail, setNewEmail] = useState('');
@@ -59,9 +59,7 @@ const ProfileInfoUpd = () => {
         fetchData();
     },[]);
 
-   // const handleProfilePicChange = (e) => {
-    //    setNewProfilePic(URL.createObjectURL(e.target.files[0]));
-   // };
+  
 
     const handleSaveChanges = async (e) => {
         e.preventDefault();
@@ -73,7 +71,6 @@ const ProfileInfoUpd = () => {
             username: newUsername,
             surname: newSurname,
             email: newEmail,
-           // profilePic: newProfilePic || userData.profilePic,
         };
 
         // Effettua una richiesta PUT per aggiornare il profilo
@@ -100,7 +97,7 @@ const ProfileInfoUpd = () => {
                 username: data.username,
                 surname: data.surname,
                 email: data.email,
-                // Aggiorna anche profilePic se è incluso nella risposta
+                
             });
     
             // Naviga indietro o mostra un messaggio di successo
