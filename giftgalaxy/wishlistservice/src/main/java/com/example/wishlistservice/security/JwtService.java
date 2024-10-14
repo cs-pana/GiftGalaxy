@@ -41,6 +41,11 @@ public class JwtService {
                 .getPayload();
     }
 
+    public Long extractUserId(String jwt) {
+        Claims claims = getClaims(jwt);
+        return Long.parseLong(claims.get("userid").toString());
+    }    
+
     public Boolean validateToken(String jwt) {
         Claims claims = getClaims(jwt);
         if (claims.getSubject() != null) {

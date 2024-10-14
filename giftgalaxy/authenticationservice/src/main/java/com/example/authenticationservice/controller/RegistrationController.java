@@ -97,12 +97,6 @@ public class RegistrationController {
         User user;
 
         //prepare claims for jwt token generation
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("username", email);
-        claims.put("email", email);
-
-        //generate jwt token for user
-        String token = jwtService.generateToken(claims, email);
 
         if (existingUser.isEmpty()) {
             // Create new user if they don't exist
@@ -116,11 +110,27 @@ public class RegistrationController {
             // Create user profile via profile service
             createUserProfile(savedUser);
 
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("username", email);
+            claims.put("email", email);
+            claims.put("userid", user.getId());
+    
+            //generate jwt token for user
+            String token = jwtService.generateToken(claims, email);
+
 
             return new ResponseEntity<>(token, HttpStatus.CREATED);
         } else {
             // User already exists
             user = existingUser.get();
+
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("username", email);
+            claims.put("email", email);
+            claims.put("userid", user.getId());
+    
+            //generate jwt token for user
+            String token = jwtService.generateToken(claims, email);
 
             // Generate JWT token
             return new ResponseEntity<>(token, HttpStatus.OK);

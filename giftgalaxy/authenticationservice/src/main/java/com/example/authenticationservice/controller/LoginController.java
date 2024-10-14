@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.authenticationservice.repository.AuthRepository;
 import com.example.authenticationservice.webtoken.JwtService;
 import com.example.authenticationservice.webtoken.LoginForm;
 
@@ -22,6 +23,9 @@ public class LoginController {
     
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private AuthRepository authRepository;
 
     @Autowired
     private JwtService jwtService;
@@ -42,6 +46,7 @@ public class LoginController {
             Map<String, Object> claims = new HashMap<>();
             claims.put("username", userDetails.getUsername());
             claims.put("email", userDetails.getUsername());  //username is the email
+            claims.put("userid", authRepository.findByEmail(userDetails.getUsername()).getId());
 
             String token = jwtService.generateToken(claims, userDetails.getUsername());
             // Return the token in the response body and header

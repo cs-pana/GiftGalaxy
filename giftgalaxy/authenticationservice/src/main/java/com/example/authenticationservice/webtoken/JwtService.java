@@ -69,6 +69,12 @@ public class JwtService {
 
     }
 
+    public Long extractUserId(String jwt) {
+        Claims claims = getClaims(jwt);
+        return Long.parseLong(claims.get("userid").toString());
+    }
+    
+
      private Claims getClaims(String jwt) {
         return Jwts.parser()
                 .verifyWith(generateKey())

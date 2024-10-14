@@ -30,12 +30,16 @@ const Notifications = () => {
                 setNotifications(response.data);
                 console.log("Notifications fetched: ", response.data);
             } catch (error) {
-                console.log("Switched to: " + axiosInstance.baseURL);
-                console.error('Error fetching notifications:', error);
-                setError('Failed to fetch notifications.');
-            } finally {
-                setLoading(false);
-            }
+                if (error.response && error.response.status === 403) {
+                  // 403 error forbidden access
+                  setError('You do not have permission to access these notifications.');
+              } else {
+                  console.error('Error fetching notifications:', error);
+                  setError('Failed to fetch notifications.');
+              }
+          } finally {
+              setLoading(false);
+              }
         };
 
         fetchNotifications();

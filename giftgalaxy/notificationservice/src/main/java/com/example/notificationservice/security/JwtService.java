@@ -51,6 +51,12 @@ public class JwtService {
         }
     }
 
+
+    public Long extractUserId(String jwt) {
+        Claims claims = getClaims(jwt);
+        return Long.parseLong(claims.get("userid").toString());
+    }  
+
      public UsernamePasswordAuthenticationToken getAuthentication(String jwt) {
         String email = extractEmail(jwt);
         return new UsernamePasswordAuthenticationToken(email, null, new ArrayList<>());

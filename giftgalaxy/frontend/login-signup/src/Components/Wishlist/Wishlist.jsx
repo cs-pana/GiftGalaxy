@@ -30,10 +30,15 @@ const Wishlist = () => {
         
         setWishlist(response.data);
       } catch (error) {
-        console.error('Error fetching wishlist:', error);
-        setError('Failed to fetch wishlist.');
-      } finally {
-        setLoading(false);
+        if (error.response && error.response.status === 403) {
+          // 403 error forbidden access
+          setError('You do not have permission to access this wishlist.');
+      } else {
+          console.error('Error fetching wishlist:', error);
+          setError('Failed to fetch wishlist.');
+      }
+  } finally {
+      setLoading(false);
       }
     };
 
