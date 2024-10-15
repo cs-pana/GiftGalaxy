@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.authenticationservice.repository.AuthRepository;
 import com.example.authenticationservice.webtoken.JwtService;
 import com.example.authenticationservice.webtoken.LoginForm;
+import com.example.authenticationservice.model.User;
+import com.example.authenticationservice.repository.UserRepository;
+
 
 @RestController
 public class LoginController {
@@ -25,7 +28,7 @@ public class LoginController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private AuthRepository authRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private JwtService jwtService;
@@ -46,8 +49,13 @@ public class LoginController {
             Map<String, Object> claims = new HashMap<>();
             claims.put("username", userDetails.getUsername());
             claims.put("email", userDetails.getUsername());  //username is the email
-            claims.put("userid", authRepository.findByEmail(userDetails.getUsername()).getId());
-
+            if ((userRepository.findByEmail(userDetails.getUsername())).isPresent()) {
+                User u = (userRepository.findByEmail(userDetails.getUsername())).get();
+                claims.put("userid", u.getId());
+            } else {
+                 return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
+            }            
+            
             String token = jwtService.generateToken(claims, userDetails.getUsername());
             // Return the token in the response body and header
             return ResponseEntity.ok()

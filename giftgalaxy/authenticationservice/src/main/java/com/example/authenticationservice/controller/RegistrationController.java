@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.authenticationservice.dto.UserProfileDto;
 import com.example.authenticationservice.model.User;
-import com.example.authenticationservice.model.UserRepository;
+import com.example.authenticationservice.repository.UserRepository;
 import com.example.authenticationservice.webtoken.JwtService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;

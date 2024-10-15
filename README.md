@@ -14,7 +14,7 @@ Laboratory of Advanced Programming project
 After cloning the repository:
 1. Navigate to the `giftgalaxy` folder
 
-2. Run the following commands to start the application:
+2. Ensure that Docker is running. Then, run the following commands to start the application:
 
     ```bash
     docker compose build

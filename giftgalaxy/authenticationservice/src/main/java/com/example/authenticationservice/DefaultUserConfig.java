@@ -1,7 +1,8 @@
 package com.example.authenticationservice;
 
 import com.example.authenticationservice.model.User;
-import com.example.authenticationservice.model.UserRepository;
+import com.example.authenticationservice.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;

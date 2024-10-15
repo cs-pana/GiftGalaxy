@@ -1,6 +1,8 @@
 package com.example.authenticationservice.model;
 
 import com.example.authenticationservice.dto.UserProfileDto;
+import com.example.authenticationservice.repository.UserRepository;
+
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
