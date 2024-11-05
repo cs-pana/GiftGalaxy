@@ -201,8 +201,8 @@ public class EbayService {
                 logger.info("Categoria aggiunta: giochi");
             }
             if (giftRequest.getAge() > 12 && giftRequest.getInterests().contains("videogames")) {
-                categoryIds.add("246"); //action figures
-                logger.info("Categoria aggiunta: action figures");
+                categoryIds.add("80183"); //cuffie
+                logger.info("Categoria aggiunta: cuffie");
             }
             if (giftRequest.getAge() > 12 && giftRequest.getInterests().contains("videogames")) {
                 categoryIds.add("33346"); //manga
@@ -259,10 +259,21 @@ public class EbayService {
             }
 
             // Persona con più di 12 anni, amante dello sport - ok
-            if (giftRequest.getAge() > 12 && giftRequest.getInterests().contains("sport")) {
+            if (giftRequest.getAge() > 15 && giftRequest.getInterests().contains("sport")) {
                 categoryIds.add("15273"); // palestra,fitnell,corsa,yoga
                 logger.info("Categoria aggiunta: Sport e viaggi");
             }
+            
+            if (giftRequest.getAge() <15 && giftRequest.getInterests().contains("sport") && ("male".equalsIgnoreCase(giftRequest.getSex()))) {
+                categoryIds.add("260967"); // abbigliamento sportivo bambino
+                logger.info("Categoria aggiunta: abbigliamento sportivo bambino");
+            }
+
+            if (giftRequest.getAge() <15 && giftRequest.getInterests().contains("sport") && ("female".equalsIgnoreCase(giftRequest.getSex()))) {
+                categoryIds.add("260974"); // abbigliamento sportivo bambina
+                logger.info("Categoria aggiunta: abbigliamento sportivo bambina");
+            }
+
             if (giftRequest.getAge() > 12 && giftRequest.getInterests().contains("sport")) {
                 categoryIds.add("34856"); // biglietti eventi sportivi
                 logger.info("Categoria aggiunta: biglietti eventi sportivi");
@@ -270,8 +281,8 @@ public class EbayService {
 
             // Persona con più di 12 anni, amante del viaggio e della natura
             if (giftRequest.getAge() > 12 && giftRequest.getInterests().contains("travel")) {
-                categoryIds.add("3252"); // Categoria viaggi e natura
-                logger.info("Categoria aggiunta: Travel e Natura");
+                categoryIds.add("157967"); // valigeria
+                logger.info("Categoria aggiunta: valigeria e accessori viaggi");
             }
 
             // Persona con più di 10 anni, amante del cinema
@@ -508,6 +519,14 @@ public class EbayService {
                 if(categoryId.equals("11848")){limit=5;}
                 if(categoryId.equals("177659")){limit=5;}
                 if(categoryId.equals("230")){limit=5;}
+                if(categoryId.equals("171228")){limit=5;}
+                if(categoryId.equals("157967")){limit=5;}
+                if(categoryId.equals("260967")){limit=5;}
+                if(categoryId.equals("260974")){limit=5;}
+                
+                
+            
+
                 
                 // Creazione dell'URL con UriComponentsBuilder per ogni categoria
                 UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl("https://api.ebay.com/buy/browse/v1/item_summary/search")
